@@ -21,11 +21,6 @@ namespace TensorAlgos
 	// Explicit instantiation
 	template TensorImpl<1, unsigned char> loadImage<1, unsigned char>(const std::string& path);
 
-	template<int N>
-	void printImageTensor(TensorImpl<N, unsigned char> tensor) {
-		for (auto& elem : tensor) {
-			std::cout << (int)elem << ","; // horrible printing lol
-		}
-	}
+
 
 }

@@ -2,7 +2,8 @@
 # Create a library for TensorAlgorithms
 add_library(TensorAlgorithms
         TensorAlgorithms.h
-        TensorAlgorithms.cpp)
+        TensorAlgorithms.cpp
+        ModuleAlgorithms.hpp)
 
 # Specify the include directories for the TensorAlgorithms library
 target_include_directories(TensorAlgorithms
