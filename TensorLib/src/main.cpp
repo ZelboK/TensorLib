@@ -3,11 +3,6 @@
 #include "TensorAlgorithms.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include <unistd.h>
-
-struct MyStruct
-{
-};
 
 template<typename TensorIn, typename TensorOut>
 TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out)
@@ -27,46 +22,48 @@ TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out)
 	return out;
 }
 
-TensorImpl<1, float> miniExperiment(TensorImpl<1, float> out)
-{
-	auto first = out.begin();
-	auto finished = out.end();
-	int ctr = 0;
-	auto out_it = out.begin();
-	while (first != finished)
-	{
-		*out_it++ = ctr++;
-		++first;
-	}
-	return out;
-}
 
-void printContents(unsigned char* data, int size) {
-	unsigned char* itr = data;
-	for(int i = 0;i<25;i++) {
-		std::cout << (int)*itr << ", ";
-		itr++;
-	}
-	std::cout << "\n";
-}
-
-int main()
+// obviously this is trash code but im just experimenting
+auto graveyard()
 {
 	const std::string path = "shiki.jpg";
-	const std::string shiki_path = R"(C:\Users\12893\Desktop\TensorLib\TensorLib\src\shiki.jpg)";
 	int width, height, channels;
 	unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 	if (data == nullptr)
 		std::cout << "OOI TO NA.";
-	int totalSize = width*height*channels;
+	int totalSize = width * height * channels;
 	auto tensor = TensorImpl<1, unsigned char>(data, totalSize);
-
-	auto test = tensor.begin();
-
-	TensorAlgos::printImageTensor(tensor);
+	return tensor;
+}
 
 
 
+int main()
+{
+	auto tensor = graveyard();
+
+	auto value = TensorAlgos::computeMean<unsigned char>(tensor);
+	std::cout << value;
 	return 0;
 }
 
+/*
+ * //	const std::string path = "shiki.jpg";
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, 100);
+
+	std::vector<int> myVector(10030);
+	std::generate(myVector.begin(), myVector.end(), [&](){ return dis(gen); });
+
+
+std::vector<float> createVec() {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, 100);
+
+	std::vector<float> myVector(2304923);
+	std::generate(myVector.begin(), myVector.end(), [&](){ return dis(gen); });
+	return myVector;
+}
+ */
