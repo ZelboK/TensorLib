@@ -1,0 +1,12 @@
+# ninja log v5
+2	1416	7009419763587812	CMakeFiles/TensorLib.dir/src/main.cpp.obj	bcbe17a25ef1fb7d
+27	1709	7008693899347440	_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	52d936a6050b55bb
+0	11	0	clean	9d67bda90de0be6a
+10	1917	7008693901426795	src/tests/CMakeFiles/LinearTests.dir/LinearTests.cpp.obj	c9225d7ac949afd
+18	2176	7008693904017456	_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.obj	e8467b7c800aab65
+14	3590	7008693918121816	_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.obj	dc14a37a4813e26d
+23	7558	7008693957727492	_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	54f1e80f43e0242a
+6	820	7009419757639079	src/logic/CMakeFiles/TensorAlgorithms.dir/TensorAlgorithms.cpp.obj	ce153c9f29b79658
+2	692	7008691144646391	CMakeFiles/TensorLib.dir/src/logic/TensorAlgorithms.cpp.obj	1ea27047bd751123
+1280	1375	7009392432504561	TensorLib.exe	bf3b0ce2d5877b47
+820	894	7009419758389778	src/logic/libTensorAlgorithms.a	cacd4b27af4fd77c
