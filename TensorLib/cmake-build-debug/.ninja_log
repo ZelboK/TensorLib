@@ -10,3 +10,7 @@
 2	692	7008691144646391	CMakeFiles/TensorLib.dir/src/logic/TensorAlgorithms.cpp.obj	1ea27047bd751123
 1280	1375	7009392432504561	TensorLib.exe	bf3b0ce2d5877b47
 820	894	7009419758389778	src/logic/libTensorAlgorithms.a	cacd4b27af4fd77c
+8	857	7016627676611837	src/logic/CMakeFiles/TensorAlgorithms.dir/TensorAlgorithms.cpp.obj	ce153c9f29b79658
+857	945	7016627677511839	src/logic/libTensorAlgorithms.a	cacd4b27af4fd77c
+3	1318	7016627681221835	CMakeFiles/TensorLib.dir/src/main.cpp.obj	bcbe17a25ef1fb7d
+1318	1524	7016627683271828	TensorLib.exe	bf3b0ce2d5877b47
