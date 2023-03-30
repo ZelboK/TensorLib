@@ -2,10 +2,10 @@
 // Created by 12893 on 2023-03-18.
 //
 
-#include "stb_image.h"
 #include "TensorAlgorithms.h"
 #include "../domain/Tensor.h"
 #define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 namespace TensorAlgos
 {

@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/TensorLib" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/TensorLib/cmake-build-debug/_deps/stb_image-src" vcs="Git" />
   </component>
 </project>

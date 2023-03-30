@@ -1,4 +1,20 @@
 "C:\Program Files\JetBrains\CLion 2022.3.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.3.1/bin/ninja/win/ninja.exe" -G Ninja -S C:\Users\12893\Desktop\TensorLib\TensorLib -B C:\Users\12893\Desktop\TensorLib\TensorLib\cmake-build-debug
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 11% complete]
+-- [download 17% complete]
+-- [download 23% complete]
+-- [download 28% complete]
+-- [download 34% complete]
+-- [download 40% complete]
+-- [download 46% complete]
+-- [download 51% complete]
+-- [download 63% complete]
+-- [download 98% complete]
+-- [download 100% complete]
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug

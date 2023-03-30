@@ -11,22 +11,12 @@ add_executable(TensorLib
         src/domain/Batch.h
         src/domain/DefaultTypes.h)
 
-include(FetchContent)
-FetchContent_Declare(
-        stb_image
-        GIT_REPOSITORY https://github.com/nothings/stb.git
-        GIT_TAG        master
-)
-FetchContent_MakeAvailable(stb_image)
-
-target_include_directories(TensorLib PRIVATE ${stb_image_SOURCE_DIR} src/logic)
-
-#add_library(Algos src/logic/TensorAlgorithms.h)
-#target_include_directories(Algos PRIVATE ${stb_image_SOURCE_DIR})
-
-# Link Algos library to TensorLib
-# target_link_libraries(TensorLib PRIVATE Algos)
-target_link_libraries(TensorLib PRIVATE TensorAlgorithms)
+file(DOWNLOAD "https://raw.githubusercontent.com/nothings/stb/master/stb_image.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image.h" SHOW_PROGRESS)
 
 add_subdirectory(src/tests)
 add_subdirectory(src/logic)
+
+target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
+target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include ${PROJECT_SOURCE_DIR}/src/logic)
+
+target_link_libraries(TensorLib PRIVATE TensorAlgorithms)
