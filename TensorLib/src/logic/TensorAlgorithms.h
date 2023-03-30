@@ -13,7 +13,7 @@ namespace TensorAlgos {
 	template <Number T>
 	T computeSquaredDiff(T a, T b);
 
-	template<Tensor TensorIt, Tensor TensorOut, Number T, binary_op<T, T> Functor>
+	template<Tensor TensorIt, Tensor TensorOut, Number T, binary_fn<T, T> Functor>
 	T accumulate(TensorIt begin, TensorOut end, T initial, Functor fn);
 
 	template<Tensor Tensor, Number T, typename Functor>
@@ -52,7 +52,7 @@ namespace TensorAlgos
 
 	}
 
-	template<Tensor TensorIt, Tensor TensorOut, Number T, binary_op<T, T> Functor>
+	template<Tensor TensorIt, Tensor TensorOut, Number T, binary_fn<T, T> Functor>
 	T accumulate(TensorIt begin, TensorOut end, T initial, Functor fn)
 	{
 		T acc = initial;

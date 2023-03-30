@@ -21,6 +21,9 @@ requires
 } && Number<typename T::value_type>;
 
 template<typename Op, typename Arg1, typename Arg2>
-concept binary_op = std::invocable<Op, Arg1, Arg2>;
+concept binary_fn = std::invocable<Op, Arg1, Arg2>;
+
+template <typename Op, typename Arg>
+concept unary_fn = std::invocable<Op, Arg>;
 
 #endif //TENSORLIB_DEFAULTTYPES_H
