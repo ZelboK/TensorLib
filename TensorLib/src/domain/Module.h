@@ -8,7 +8,7 @@
 #include "DefaultTypes.h"
 #include "Tensor.h"
 
-template<NumberType T>
+template<Number T>
 class Module
 {
  public:

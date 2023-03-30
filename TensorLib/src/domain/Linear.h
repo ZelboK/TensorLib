@@ -8,7 +8,7 @@
 #include "DefaultTypes.h"
 #include "Module.h"
 
-template<NumberType T>
+template<Number T>
 class Linear : public Module<T> {
     int in_channels;
     int out_channels;

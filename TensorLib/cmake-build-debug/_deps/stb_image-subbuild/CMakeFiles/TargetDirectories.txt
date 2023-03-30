@@ -1,3 +1,0 @@
-C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/stb_image-subbuild/CMakeFiles/stb_image-populate.dir
-C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/stb_image-subbuild/CMakeFiles/edit_cache.dir
-C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/stb_image-subbuild/CMakeFiles/rebuild_cache.dir

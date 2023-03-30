@@ -10,15 +10,15 @@
 
 
 template <typename T>
-concept NumberType = std::is_arithmetic<T>::value;  // OK
+concept Number = std::is_arithmetic<T>::value;  // OK
 
 
 template<typename T>
-concept TensorIter =
+concept Tensor =
 requires
 {
 	typename T::value_type;
-} && NumberType<typename T::value_type>;
+} && Number<typename T::value_type>;
 
 template<typename Op, typename Arg1, typename Arg2>
 concept binary_op = std::invocable<Op, Arg1, Arg2>;

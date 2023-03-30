@@ -9,10 +9,10 @@
 #include "DefaultTypes.h"
 #include <functional>
 
-template<int rank, NumberType T> requires (rank > 0)
+template<int rank, Number T> requires (rank > 0)
 class TensorImplIterator;
 
-template<int rank, NumberType T> requires (rank > 0)
+template<int rank, Number T> requires (rank > 0)
 class TensorImpl {
 public:
     using value_type = T;
@@ -116,7 +116,7 @@ private:
 };
 
 // TODO THINK ABOUT WHAT SHOULD BE PRIVATE AND PUBLIC!
-template<int rank, NumberType T> requires (rank > 0)
+template<int rank, Number T> requires (rank > 0)
 class TensorImplIterator {
 public:
     using value_type = T;

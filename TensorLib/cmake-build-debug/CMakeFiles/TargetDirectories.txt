@@ -5,7 +5,7 @@ C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/CMakeFiles/list_ins
 C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/CMakeFiles/install.dir
 C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/CMakeFiles/install/local.dir
 C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/CMakeFiles/install/strip.dir
-C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/src/tests/CMakeFiles/LinearTests.dir
+C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/src/tests/CMakeFiles/TensorLibTests.dir
 C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/src/tests/CMakeFiles/edit_cache.dir
 C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/src/tests/CMakeFiles/rebuild_cache.dir
 C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/src/tests/CMakeFiles/list_install_components.dir
