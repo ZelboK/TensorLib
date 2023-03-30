@@ -8,7 +8,7 @@
 #include "../domain/Tensor.h"
 
 
-namespace ModuleAlgos
+namespace ModuleAlgorithms
 {
 	template<typename T, int rank, unary_fn<T> Function>
 	T reduceMapBatch(std::vector<TensorImpl<rank, T>> batch, Function fn);
@@ -35,7 +35,7 @@ namespace ModuleAlgos
 namespace ModuleAlgorithms
 {
 
-	template<typename T, int rank, unary_fn<T> Function>
+	template<Number T, int rank, unary_fn<T> Function>
 	T reduceMapBatch(std::vector<TensorImpl<rank, T>> batch, Function fn)
 	{
 		T sum = 0;
@@ -59,9 +59,8 @@ namespace ModuleAlgorithms
 	template<int rank, Number T>
 	T computeMeanBatch(std::vector<TensorImpl<rank, T>> batch)
 	{
-
 		return
-			reduceMapBatch(batch, TensorAlgos::computeVariance<T>);
+			reduceMapBatch(batch, TensorAlgos::computeMean<T>);
 	}
 
 	template<int rank, Number T>

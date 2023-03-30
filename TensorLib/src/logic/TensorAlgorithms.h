@@ -19,7 +19,7 @@ namespace TensorAlgos {
 	template<Tensor Tensor, Number T, typename Functor>
 	T accumulate(Tensor tensor, T initial, Functor fn);
 
-	template<Number T, typename Tensor>
+	template<Number T, Tensor Tensor>
 	T computeMean(Tensor tensor);
 
 	// lacks referential transparency. If more than one thread is using this on the same
@@ -72,7 +72,7 @@ namespace TensorAlgos
 		return accumulate(tensor.begin(), tensor.end(), initial, fn);
 	}
 
-	template<Number T, typename Tensor>
+	template<Number T, Tensor Tensor>
 	T computeMean(Tensor tensor) {
 		int sum = 0;
 		size_t size = tensor.size();
@@ -84,7 +84,7 @@ namespace TensorAlgos
 		return (sum/size);
 	}
 
-	template <Number T, typename Tensor>
+	template <Number T, Tensor Tensor>
 	T computeVariance(Tensor tensor, T mean) {
 		T curMean = computeMean(tensor);
 		return (curMean - mean)*2; // squared diff is this the fastest?

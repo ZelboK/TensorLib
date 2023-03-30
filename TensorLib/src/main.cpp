@@ -1,51 +1,82 @@
 #include <iostream>
 #include "domain/Tensor.h"
 #include "TensorAlgorithms.h"
+
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "stb_image.h"
 #include "logic/ModuleAlgorithms.hpp"
-template<typename TensorIn, typename TensorOut>
-TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out)
-{
-	std::random_device dev;
-	std::mt19937 rng(dev());
-	std::uniform_real_distribution<float>
-		dist(0, 255); // Change to uniform_real_distribution since TensorImpl is using float type
 
-	auto out_it = out.begin(); // Iterator for the output tensor
-	while (first != last)
-	{
-		*out_it++ = dist(rng); // Assign random values to the output tensor
-		++first;
-	}
-	std::cout << out[0] << "Hello there";
-	return out;
+template<typename TensorIn, typename TensorOut>
+TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out) {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_real_distribution<float>
+            dist(0, 255); // Change to uniform_real_distribution since TensorImpl is using float type
+
+    auto out_it = out.begin(); // Iterator for the output tensor
+    while (first != last) {
+        *out_it++ = dist(rng); // Assign random values to the output tensor
+        ++first;
+    }
+    std::cout << out[0] << "Hello there";
+    return out;
 }
 
 
 // obviously this is trash code but im just experimenting
-auto graveyard()
-{
-	const std::string path = R"(C:\Users\12893\Desktop\TensorLib\TensorLib\shiki.jpg)";
-	int width, height, channels;
-	unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-	if (data == nullptr)
-		std::cout << "OOI TO NA.";
-	int totalSize = width * height * channels;
-	auto tensor = TensorImpl<1, unsigned char>(data, totalSize);
-	return tensor;
+auto graveyard() {
+    const std::string path = R"(C:\Users\12893\Desktop\TensorLib\TensorLib\shiki.jpg)";
+    int width, height, channels;
+    unsigned char *data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    if (data == nullptr)
+        std::cout << "OOI TO NA.";
+    int totalSize = width * height * channels;
+    auto tensor = TensorImpl<1, unsigned char>(data, totalSize);
+    return tensor;
 }
 
 
+template<typename Op, typename Arg>
+concept A_B = std::invocable<Op, Arg>;
 
-int main()
-{
-	auto tensor = graveyard();
-	auto tensor2 = graveyard();
-	std::vector<TensorImpl<1, unsigned char>> hi{tensor, tensor2};
-	ModuleAlgos::computeMeanBatch(hi);
-	std::cout << 3;
-	return 0;
+struct MyStruct{};
+
+template <typename T>
+int stupid(int i) {
+    return i+1;
+}
+
+template <A_B<int> Fn>
+void iAccept(Fn fn, int i) {
+    fn(i);
+}
+
+
+int main() {
+    auto tensor = graveyard();
+    auto tensor2 = graveyard();
+    std::vector<TensorImpl<1, unsigned char>> hi{tensor, tensor2};
+    TensorImpl<1, int> yo(32);
+    auto lambda = [](int cur) { return cur; };
+
+//    static_assert(A_B
+//            <&TensorAlgos::computeMean<int, decltype(yo), int>>
+//            );
+
+    static_assert(A_B<decltype(
+            TensorAlgos::computeMean<int , TensorImpl<1, int> >
+            ), decltype(yo)>);
+
+    iAccept(stupid<MyStruct>, 0);
+    ModuleAlgorithms::reduceMapBatch(
+            hi,
+            TensorAlgos::computeMean<unsigned char, TensorImpl<1, unsigned char>>
+            );
+
+
+    std::cout << 3;
+    return 0;
 }
 
 /*
