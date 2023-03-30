@@ -6,16 +6,15 @@
 #define TENSORLIB_TENSORLIB_SRC_LOGIC_MODULEALGORITHMS_HPP_
 #include "TensorAlgorithms.h"
 #include "../domain/Tensor.h"
-#include "opmapi.h"
 
-template<typename F, typename Arg>
-concept UnaryOperation =
-requires(F f, Arg arg) {
-	{ f(arg) } -> std::same_as<decltype(f(arg))>;
-};
 
 namespace ModuleAlgos
 {
+	template<typename T, int rank, unary_fn<T> Function>
+	T reduceMapBatch(std::vector<TensorImpl<rank, T>> batch, Function fn);
+
+	template<typename T, int rank, binary_fn<T, T> Function>
+	T reduceFoldBatch(std::vector<TensorImpl<rank, T>> batch, T initial, Function fn);
 
 	template<int rank, Number T>
 	T computeMeanBatch(std::vector<TensorImpl<rank, T>> batch);
@@ -36,7 +35,7 @@ namespace ModuleAlgos
 namespace ModuleAlgorithms
 {
 
-	template<typename T, int rank, typename Function>
+	template<typename T, int rank, unary_fn<T> Function>
 	T reduceMapBatch(std::vector<TensorImpl<rank, T>> batch, Function fn)
 	{
 		T sum = 0;
@@ -60,8 +59,9 @@ namespace ModuleAlgorithms
 	template<int rank, Number T>
 	T computeMeanBatch(std::vector<TensorImpl<rank, T>> batch)
 	{
+
 		return
-			reduceMapBatch(batch, TensorAlgos::computeMean<T>);
+			reduceMapBatch(batch, TensorAlgos::computeVariance<T>);
 	}
 
 	template<int rank, Number T>

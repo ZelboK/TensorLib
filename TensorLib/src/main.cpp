@@ -3,7 +3,7 @@
 #include "TensorAlgorithms.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
+#include "logic/ModuleAlgorithms.hpp"
 template<typename TensorIn, typename TensorOut>
 TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out)
 {
@@ -26,7 +26,7 @@ TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out)
 // obviously this is trash code but im just experimenting
 auto graveyard()
 {
-	const std::string path = "shiki.jpg";
+	const std::string path = R"(C:\Users\12893\Desktop\TensorLib\TensorLib\shiki.jpg)";
 	int width, height, channels;
 	unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 	if (data == nullptr)
@@ -41,9 +41,10 @@ auto graveyard()
 int main()
 {
 	auto tensor = graveyard();
-
-	auto value = TensorAlgos::computeMean<unsigned char>(tensor);
-	std::cout << value;
+	auto tensor2 = graveyard();
+	std::vector<TensorImpl<1, unsigned char>> hi{tensor, tensor2};
+	ModuleAlgos::computeMeanBatch(hi);
+	std::cout << 3;
 	return 0;
 }
 
