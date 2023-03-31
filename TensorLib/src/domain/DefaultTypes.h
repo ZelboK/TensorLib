@@ -12,6 +12,7 @@
 template <typename T>
 concept Number = std::is_arithmetic<T>::value;  // OK
 
+static float epsilon = 0.000005;
 
 template<typename T>
 concept Container_V =
