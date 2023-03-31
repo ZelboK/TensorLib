@@ -13,7 +13,7 @@ template<int rank, Number T> requires (rank > 0)
 class TensorImplIterator;
 
 template<int rank, Number T> requires (rank > 0)
-class TensorImpl {
+class Tensor {
 public:
     using value_type = T;
     using size_type = std::size_t;
@@ -25,25 +25,25 @@ public:
     using const_iterator = TensorImplIterator<rank, T>;
     using const_pointer = value_type const *;
 
-    explicit TensorImpl(size_type size) {
+    explicit Tensor(size_type size) {
         data_ = new T[size];
         size_ = size;
     }
 
-    explicit TensorImpl(T* data, int size) {
+    explicit Tensor(T* data, int size) {
         data_ = data;
 		size_ = size;
         // what do I do with size??? I think I need to delegate it to the lib
     }
 
-    TensorImpl(const TensorImpl &other) {
+    Tensor(const Tensor &other) {
         size_ = other.size_;
         data_ = new T[size_];
         std::copy(other.data_, other.data_ + size_, data_);
     }
 
     // Assignment operator
-    TensorImpl &operator=(const TensorImpl &other) {
+    Tensor &operator=(const Tensor &other) {
         if (this == &other) {
             return *this;
         }
@@ -54,13 +54,13 @@ public:
         return *this;
     }
 
-    ~TensorImpl() {
+    ~Tensor() {
         delete[] data_;
         data_ = nullptr;
         size_ = 0;
     }
 
-    TensorImpl() = default;
+    Tensor() = default;
 
     iterator begin() {
         return iterator(0, *this);
@@ -131,7 +131,7 @@ public:
 
     explicit TensorImplIterator(
             size_type const index,
-            TensorImpl<rank, T> &buffer) :
+            Tensor<rank, T> &buffer) :
             buffer_(buffer), index_(index) {}
 
     self_type &operator++() {
@@ -243,7 +243,7 @@ public:
 
 
 private:
-    std::reference_wrapper<TensorImpl<rank, T>> buffer_;
+    std::reference_wrapper<Tensor<rank, T>> buffer_;
     size_type index_ = 0;
 
     bool compatible(self_type const &other) const {

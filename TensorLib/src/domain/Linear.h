@@ -14,10 +14,10 @@ class Linear : public Module<T> {
     int out_channels;
     T bias; // TODO implement
 public:
-    TensorImpl<1, T> layer; // The rank here doesn't make sense!?
+    Tensor<1, T> layer; // The rank here doesn't make sense!?
     Linear(int in, int out) : in_channels(in),
                               out_channels(out) {
-        layer = TensorImpl<1, T>(in);
+        layer = Tensor<1, T>(in);
     }
 
 };

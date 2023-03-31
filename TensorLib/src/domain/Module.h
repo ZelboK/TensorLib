@@ -15,8 +15,8 @@ class Module
 	template<int rank>
 	// are we sure this is what we want? Maybe this just takes
 	// a Tensor base class
-	TensorImpl<rank, T> forward(TensorImpl<rank, T> layer,
-		TensorImpl<rank, T> data)
+	Tensor<rank, T> forward(Tensor<rank, T> layer,
+		Tensor<rank, T> data)
 	{
 		return layer * data;
 	}

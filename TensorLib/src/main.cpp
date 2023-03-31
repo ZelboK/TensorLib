@@ -12,7 +12,7 @@ TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out) {
   std::random_device dev;
   std::mt19937 rng(dev());
   std::uniform_real_distribution<float>
-      dist(0, 255); // Change to uniform_real_distribution since TensorImpl is using float type
+      dist(0, 255); // Change to uniform_real_distribution since Tensor is using float type
 
   auto out_it = out.begin(); // Iterator for the output tensor
   while (first != last) {
@@ -31,7 +31,7 @@ auto graveyard() {
   if (data == nullptr)
     std::cout << "OOI TO NA.";
   int totalSize = width * height * channels;
-  auto tensor = TensorImpl<1, unsigned char>(data, totalSize);
+  auto tensor = Tensor<1, unsigned char>(data, totalSize);
   return tensor;
 }
 
@@ -52,25 +52,22 @@ void iAccept(Fn fn, int i) {
 int main() {
   auto tensor = graveyard();
   auto tensor2 = graveyard();
-  std::vector<TensorImpl<1, unsigned char>> batch{tensor, tensor2};
-  TensorImpl<1, int> yo(32);
+  std::vector<Tensor<1, unsigned char>> batch{ tensor, tensor2};
+  Tensor<1, int> yo(32);
   auto lambda = [](int cur) { return cur; };
 
 
-    ModuleAlgorithms::reduceMapBatch(
-            batch,
-            TensorAlgos::computeMean<unsigned char, TensorImpl<1, unsigned char>>
-            );
+  auto assessed = TensorAlgos::computeMean<unsigned char, Tensor<1, unsigned char>>(tensor);
   /*
-   *  'unary_fn<unsigned char (*)(TensorImpl<1, unsigned char>),
+   *  'unary_fn<unsigned char (*)(Tensor<1, unsigned char>),
    *  unsigned char>' evaluated to false
       template<typename T, int rank, unary_fn<T> Function>
    */
   static_assert(unary_fn<
-      decltype(TensorAlgos::computeMean<unsigned char, TensorImpl<1, unsigned char>>),
-      TensorImpl<1, unsigned char>
+	  decltype(TensorAlgos::computeMean<unsigned char, Tensor<1, unsigned char>>),
+	  Tensor<1, unsigned char>
           >);
-  std::cout << 3;
+  std::cout << (int)assessed;
   return 0;
 }
 

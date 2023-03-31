@@ -6,12 +6,12 @@
 #include "../logic/TensorAlgorithms.h"
 
 TEST(constructor, Tensors) {
-	TensorImpl<1, float> test(32);
+	Tensor<1, float> test(32);
 	TensorAlgos::modifyTensorWithRandomInts(test);
 }
 
 TEST(constructor, TensorAlgos) {
-	TensorImpl<1, float> test(32);
+	Tensor<1, float> test(32);
 	TensorAlgos::modifyTensorWithRandomInts(test);
 
 	auto expected = std::accumulate(test.begin(), test.end(), 0, [](int acc, int cur) {
