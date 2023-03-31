@@ -14,7 +14,7 @@ concept Number = std::is_arithmetic<T>::value;  // OK
 
 
 template<typename T>
-concept Tensor =
+concept Container_V =
 requires
 {
 	typename T::value_type;

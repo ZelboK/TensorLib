@@ -8,30 +8,30 @@
 
 namespace TensorAlgos {
 	template<int N>
-	void printImageTensor(TensorImpl<N, unsigned char> tensor);
+	void printImageTensor(const Tensor<N, unsigned char>& tensor);
 
 	template <Number T>
 	T computeSquaredDiff(T a, T b);
 
-	template<Tensor TensorIt, Tensor TensorOut, Number T, binary_fn<T, T> Functor>
-	T accumulate(TensorIt begin, TensorOut end, T initial, Functor fn);
+	template<Container_V TensorIt, Container_V TensorOut, Number T, binary_fn<T, T> Functor>
+	T accumulate(const TensorIt& begin, const TensorOut& end, T initial, Functor fn);
 
-	template<Tensor Tensor, Number T, typename Functor>
-	T accumulate(Tensor tensor, T initial, Functor fn);
+	template<Container_V Tensor, Number T, typename Functor>
+	T accumulate(const Tensor& tensor, T initial, Functor fn);
 
-	template<Number T, Tensor Tensor>
-	T computeMean(Tensor tensor);
+	template<Number T, Container_V Tensor>
+	T computeMean(const Tensor& tensor);
 
 	// lacks referential transparency. If more than one thread is using this on the same
 	// tensor, then the tensor data will be added accordingly.
 	template<typename Tensor>
 	Tensor modifyTensorWithRandomInts(Tensor& tensor);
 
-	template<Number T, Tensor Tensor>
-	T computeVariance(Tensor tensor, T mean);
+	template<Number T, Container_V Tensor>
+	T computeVariance(const Tensor& tensor, T mean);
 
-	template<Number T, Tensor Tensor>
-	T computeStandardDeviation(Tensor tensor, T mean);
+	template<Number T, Container_V Tensor>
+	T computeStandardDeviation(const Tensor& tensor, T mean);
 
 
 }
@@ -39,7 +39,7 @@ namespace TensorAlgos {
 namespace TensorAlgos
 {
 	template<int N>
-	void printImageTensor(TensorImpl<N, unsigned char> tensor)
+	void printImageTensor(const Tensor<N, unsigned char>& tensor)
 	{
 		for (auto& elem : tensor)
 		{
@@ -52,8 +52,8 @@ namespace TensorAlgos
 
 	}
 
-	template<Tensor TensorIt, Tensor TensorOut, Number T, binary_fn<T, T> Functor>
-	T accumulate(TensorIt begin, TensorOut end, T initial, Functor fn)
+	template<Container_V TensorIt, Container_V TensorOut, Number T, binary_fn<T, T> Functor>
+	T accumulate(const TensorIt& begin, const TensorOut& end, T initial, Functor fn)
 	{
 		T acc = initial;
 		int ctr = 0;
@@ -66,17 +66,17 @@ namespace TensorAlgos
 	}
 
 
-	template<Tensor Tensor, Number T, typename Functor>
+	template<Container_V Tensor, Number T, typename Functor>
 	T accumulate(Tensor tensor, T initial, Functor fn)
 	{
 		return accumulate(tensor.begin(), tensor.end(), initial, fn);
 	}
 
     template<int rank, Number T>
-    T computeMeans(TensorImpl<rank, T> tensor);
+    T computeMeans(Tensor<rank, T> tensor);
 
 
-	template<Number T, Tensor Tensor>
+	template<Number T, Container_V Tensor>
 	T computeMean(Tensor tensor) {
 		int sum = 0;
 		size_t size = tensor.size();
@@ -88,7 +88,7 @@ namespace TensorAlgos
 		return (sum/size);
 	}
 
-	template <Number T, Tensor Tensor>
+	template <Number T, Container_V Tensor>
 	T computeVariance(Tensor tensor, T mean) {
 		T curMean = computeMean(tensor);
 		return (curMean - mean)*2; // squared diff is this the fastest?

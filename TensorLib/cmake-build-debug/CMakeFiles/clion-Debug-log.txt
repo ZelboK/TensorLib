@@ -1,36 +1,26 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib -B /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug
--- The C compiler identification is AppleClang 14.0.0.14000029
--- The CXX compiler identification is AppleClang 14.0.0.14000029
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
+"C:\Program Files\JetBrains\CLion 2022.3.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.3.1/bin/ninja/win/ninja.exe" -G Ninja -S C:\Users\12893\Desktop\TensorLib\TensorLib -B C:\Users\12893\Desktop\TensorLib\TensorLib\cmake-build-debug
 -- [download 0% complete]
--- [download 6% complete]
--- [download 12% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 5% complete]
+-- [download 11% complete]
 -- [download 17% complete]
 -- [download 23% complete]
--- [download 29% complete]
+-- [download 28% complete]
+-- [download 34% complete]
 -- [download 40% complete]
 -- [download 46% complete]
--- [download 58% complete]
+-- [download 51% complete]
+-- [download 57% complete]
 -- [download 63% complete]
 -- [download 69% complete]
 -- [download 75% complete]
--- [download 81% complete]
+-- [download 80% complete]
 -- [download 86% complete]
+-- [download 92% complete]
 -- [download 98% complete]
 -- [download 100% complete]
--- Found Python: /usr/local/Frameworks/Python.framework/Versions/3.11/bin/python3.11 (found version "3.11.2") found components: Interpreter 
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
--- Found Threads: TRUE  
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug
+-- Build files have been written to: C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug

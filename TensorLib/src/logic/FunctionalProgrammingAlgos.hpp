@@ -9,7 +9,7 @@
 
 namespace FunctionalProgAlgos {
 
-    template <TensorIter first, TensorIter second>
+    template <Container_V first, Container_V second>
     auto zipWith();
 
 }
