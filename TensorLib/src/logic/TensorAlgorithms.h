@@ -72,6 +72,10 @@ namespace TensorAlgos
 		return accumulate(tensor.begin(), tensor.end(), initial, fn);
 	}
 
+    template<int rank, Number T>
+    T computeMeans(TensorImpl<rank, T> tensor);
+
+
 	template<Number T, Tensor Tensor>
 	T computeMean(Tensor tensor) {
 		int sum = 0;

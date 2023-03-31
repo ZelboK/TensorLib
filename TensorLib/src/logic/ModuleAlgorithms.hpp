@@ -10,7 +10,7 @@
 
 namespace ModuleAlgorithms
 {
-	template<typename T, int rank, unary_fn<T> Function>
+	template<typename T, int rank, unary_fn<TensorImpl<rank, T>> Function>
 	T reduceMapBatch(std::vector<TensorImpl<rank, T>> batch, Function fn);
 
 	template<typename T, int rank, binary_fn<T, T> Function>
