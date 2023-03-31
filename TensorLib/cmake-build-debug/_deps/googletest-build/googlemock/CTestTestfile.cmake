@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googlemock
-# Build directory: C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-build/googlemock
+# Source directory: /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googlemock
+# Build directory: /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-build/googlemock
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

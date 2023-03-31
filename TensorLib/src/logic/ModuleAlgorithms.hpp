@@ -21,9 +21,9 @@ namespace ModuleAlgorithms
 	template<int rank, Number T>
 	T computeVarianceBatch(const std::vector<Tensor<rank, T>>& batch);
 
-	// return Type?
-	template<Number T>
-	auto normalize(T batchMean, T batchVariance);
+// return Type?
+	template<Number T, int rank>
+	Tensor<rank, T> normalize(T batchMean, T batchVariance);
 
 	template<Number T>
 	auto scaleAndShift(auto batch, auto learnA, auto learnB); // two learnable parameters
@@ -33,7 +33,6 @@ namespace ModuleAlgorithms
 // iterator in the input ranges, including their end iterators.
 namespace ModuleAlgorithms
 {
-
 
 	template<typename T, int rank, unary_fn<Tensor<rank, T>> Function>
 	T reduceMapBatch(const std::vector<Tensor<rank, T>>& batch, Function fn)
@@ -68,6 +67,14 @@ namespace ModuleAlgorithms
 	{
 		return
 			reduceFoldBatch(batch, 0, TensorAlgos::computeVariance<T>);
+	}
+
+	template<Number T, int rank>
+	Tensor<rank, T> normalize(Tensor<rank, T> tensor, T batchMean, T batchVariance)
+	{
+		T numerator = TensorAlgos::computeMean<T>(tensor) - batchMean;
+		T denom = (batchVariance*batchVariance) + epsilon;
+
 	}
 }
 
