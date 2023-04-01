@@ -26,41 +26,42 @@ public:
     using const_pointer = value_type const *;
 
     explicit Tensor(size_type size) {
-        data_ = std::make_shared<T[]>(size);
+        data_ =  std::shared_ptr<T[]>(new T[size], std::default_delete<T[]>());
         size_ = size;
     }
 
 	// TODO Does this need changing because Tensor now uses a shared_ptr?
     explicit Tensor(T* data, int size) {
-        data_ = data;
+		data_ = std::shared_ptr<T[]>(data, std::default_delete<T[]>());
 		size_ = size;
     }
 
     Tensor(const Tensor &other) {
         size_ = other.size_;
-        std::copy(other.data_, other.data_ + size_, data_);
+        std::copy(other.begin(), other.end(), this->begin());
     }
 
-    // Assignment operator
     Tensor &operator=(const Tensor &other) {
         if (this == &other) {
             return *this;
         }
-        delete[] data_;
         size_ = other.size_;
-        data_ = new T[size_];
         std::copy(other.data_, other.data_ + size_, data_);
         return *this;
     }
 
     Tensor() = default;
 
+	reference operator*() {
+		return data_[0];
+	}
+
     iterator begin() {
         return iterator(0, *this);
     }
 
     iterator end() {
-        return iterator(size_, *this);
+        return iterator(size_, this);
     }
 
     const_iterator begin() const {
@@ -100,7 +101,7 @@ public:
     size_type capacity() const noexcept { return size_; }
 
 private:
-    std::shared_ptr<value_type> data_;
+    std::shared_ptr<T> data_;
     size_type size_ = 0;
  //   int columns; // found out at runtime
  //   int rows;
