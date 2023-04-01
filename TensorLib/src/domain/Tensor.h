@@ -26,19 +26,18 @@ public:
     using const_pointer = value_type const *;
 
     explicit Tensor(size_type size) {
-        data_ = new T[size];
+        data_ = std::make_shared<T[]>(size);
         size_ = size;
     }
 
+	// TODO Does this need changing because Tensor now uses a shared_ptr?
     explicit Tensor(T* data, int size) {
         data_ = data;
 		size_ = size;
-        // what do I do with size??? I think I need to delegate it to the lib
     }
 
     Tensor(const Tensor &other) {
         size_ = other.size_;
-        data_ = new T[size_];
         std::copy(other.data_, other.data_ + size_, data_);
     }
 
@@ -52,12 +51,6 @@ public:
         data_ = new T[size_];
         std::copy(other.data_, other.data_ + size_, data_);
         return *this;
-    }
-
-    ~Tensor() {
-        delete[] data_;
-        data_ = nullptr;
-        size_ = 0;
     }
 
     Tensor() = default;
@@ -107,7 +100,7 @@ public:
     size_type capacity() const noexcept { return size_; }
 
 private:
-    pointer data_;
+    std::shared_ptr<value_type> data_;
     size_type size_ = 0;
  //   int columns; // found out at runtime
  //   int rows;
