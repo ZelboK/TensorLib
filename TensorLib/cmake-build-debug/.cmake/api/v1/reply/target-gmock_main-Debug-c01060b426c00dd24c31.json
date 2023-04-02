@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lib/libgtest.a"
+			"path" : "lib/libgmock_main.a"
 		}
 	],
 	"backtrace" : 3,
@@ -16,13 +16,14 @@
 			"cxx_library",
 			"install",
 			"install_project",
+			"target_link_libraries",
 			"include_directories",
 			"target_compile_features"
 		],
 		"files" : 
 		[
 			"cmake-build-debug/_deps/googletest-src/googletest/cmake/internal_utils.cmake",
-			"cmake-build-debug/_deps/googletest-src/googletest/CMakeLists.txt"
+			"cmake-build-debug/_deps/googletest-src/googlemock/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -32,7 +33,7 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 126,
+				"line" : 100,
 				"parent" : 0
 			},
 			{
@@ -50,7 +51,7 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 150,
+				"line" : 120,
 				"parent" : 0
 			},
 			{
@@ -62,11 +63,17 @@
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 116,
+				"line" : 101,
 				"parent" : 0
 			},
 			{
 				"command" : 6,
+				"file" : 1,
+				"line" : 75,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
 				"file" : 0,
 				"line" : 192,
 				"parent" : 2
@@ -79,10 +86,10 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
 				},
 				{
-					"fragment" : "-Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers"
+					"fragment" : " -DGTEST_HAS_PTHREAD=1  "
 				},
 				{
 					"fragment" : "-std=c++20"
@@ -91,12 +98,24 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 6,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
+					"backtrace" : 7,
+					"isSystem" : true,
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googlemock/include"
 				},
 				{
-					"backtrace" : 6,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
+					"backtrace" : 7,
+					"isSystem" : true,
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googlemock"
+				},
+				{
+					"backtrace" : 7,
+					"isSystem" : true,
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
+				},
+				{
+					"backtrace" : 7,
+					"isSystem" : true,
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
 				}
 			],
 			"language" : "CXX",
@@ -104,7 +123,7 @@
 			{
 				"backtraces" : 
 				[
-					7
+					8
 				],
 				"standard" : "20"
 			},
@@ -114,7 +133,18 @@
 			]
 		}
 	],
-	"id" : "gtest::@1ea2dfc0605fe3ab2a3f",
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "gmock::@0f7bb11d64f3678238c7"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
+		}
+	],
+	"id" : "gmock_main::@0f7bb11d64f3678238c7",
 	"install" : 
 	{
 		"destinations" : 
@@ -126,15 +156,15 @@
 		],
 		"prefix" : 
 		{
-			"path" : "C:/Program Files (x86)/TensorLib"
+			"path" : "/usr/local"
 		}
 	},
-	"name" : "gtest",
-	"nameOnDisk" : "libgtest.a",
+	"name" : "gmock_main",
+	"nameOnDisk" : "libgmock_main.a",
 	"paths" : 
 	{
-		"build" : "_deps/googletest-build/googletest",
-		"source" : "cmake-build-debug/_deps/googletest-src/googletest"
+		"build" : "_deps/googletest-build/googlemock",
+		"source" : "cmake-build-debug/_deps/googletest-src/googlemock"
 	},
 	"sourceGroups" : 
 	[
@@ -151,7 +181,7 @@
 		{
 			"backtrace" : 3,
 			"compileGroupIndex" : 0,
-			"path" : "cmake-build-debug/_deps/googletest-src/googletest/src/gtest-all.cc",
+			"path" : "cmake-build-debug/_deps/googletest-src/googlemock/src/gmock_main.cc",
 			"sourceGroupIndex" : 0
 		}
 	],

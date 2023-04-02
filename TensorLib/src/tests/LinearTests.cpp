@@ -6,7 +6,6 @@
 
 TEST(forward, Linear) {
 
-  //  ASSERT_TRUE(arma::all(arma::vectorise(tested == expected))); // pass
 
 }
 

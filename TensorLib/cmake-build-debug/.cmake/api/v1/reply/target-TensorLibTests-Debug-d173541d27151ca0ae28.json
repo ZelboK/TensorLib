@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "src/tests/TensorLibTests.exe"
-		},
-		{
-			"path" : "src/tests/TensorLibTests.pdb"
+			"path" : "src/tests/TensorLibTests"
 		}
 	],
 	"backtrace" : 1,
@@ -55,7 +52,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
 				},
 				{
 					"fragment" : "-std=gnu++20"
@@ -66,12 +63,12 @@
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
 				}
 			],
 			"language" : "CXX",
@@ -86,7 +83,8 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
@@ -116,23 +114,19 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "lib\\libgtest_main.a",
+				"fragment" : "../../lib/libgtest_main.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "lib\\libgtest.a",
-				"role" : "libraries"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"fragment" : "../../lib/libgtest.a",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "TensorLibTests",
-	"nameOnDisk" : "TensorLibTests.exe",
+	"nameOnDisk" : "TensorLibTests",
 	"paths" : 
 	{
 		"build" : "src/tests",
@@ -145,7 +139,8 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
@@ -161,6 +156,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/tests/TensorSpec.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/tests/TensorIteratorSpec.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

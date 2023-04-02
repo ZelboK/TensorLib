@@ -50,7 +50,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
 				},
 				{
 					"fragment" : "-std=gnu++20"
@@ -60,11 +60,11 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/src/logic"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/src/logic"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/include"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/include"
 				}
 			],
 			"language" : "CXX",

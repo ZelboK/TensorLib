@@ -12,7 +12,7 @@
 						5
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.24"
@@ -31,7 +31,7 @@
 						2
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-src.tests-Debug-5754f03761777cfcdbde.json",
+					"jsonFile" : "directory-src.tests-Debug-115a8c61f2ecd2030e99.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.24"
@@ -51,7 +51,7 @@
 						3
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-_deps.googletest-build-Debug-ded26adebee9516e95c3.json",
+					"jsonFile" : "directory-_deps.googletest-build-Debug-fa1b18db30f420365ea4.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.5"
@@ -67,7 +67,7 @@
 						4
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-_deps.googletest-build.googlemock-Debug-64a9e219b2f9e727c4e2.json",
+					"jsonFile" : "directory-_deps.googletest-build.googlemock-Debug-e41b1082b9ff285c91c7.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.5"
@@ -84,7 +84,7 @@
 				{
 					"build" : "_deps/googletest-build/googletest",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-_deps.googletest-build.googletest-Debug-6e5a0b0986043c4b2d00.json",
+					"jsonFile" : "directory-_deps.googletest-build.googletest-Debug-c629ac78ffdc741f9ca2.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.5"
@@ -100,7 +100,7 @@
 				},
 				{
 					"build" : "src/logic",
-					"jsonFile" : "directory-src.logic-Debug-87b046a2238aded86031.json",
+					"jsonFile" : "directory-src.logic-Debug-2889ea23758e04bb653b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.24"
@@ -184,49 +184,49 @@
 				{
 					"directoryIndex" : 5,
 					"id" : "TensorAlgorithms::@ea15d1ede4aa1a4a3a18",
-					"jsonFile" : "target-TensorAlgorithms-Debug-9afec59423b7adb55281.json",
+					"jsonFile" : "target-TensorAlgorithms-Debug-2512b0e0d4653a171b22.json",
 					"name" : "TensorAlgorithms",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "TensorLib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TensorLib-Debug-e7244bfb82da0d03473d.json",
+					"jsonFile" : "target-TensorLib-Debug-f4a0371473a67c746d84.json",
 					"name" : "TensorLib",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "TensorLibTests::@08b4cb1648a15a99be29",
-					"jsonFile" : "target-TensorLibTests-Debug-368069f00896d4610f78.json",
+					"jsonFile" : "target-TensorLibTests-Debug-d173541d27151ca0ae28.json",
 					"name" : "TensorLibTests",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "gmock::@0f7bb11d64f3678238c7",
-					"jsonFile" : "target-gmock-Debug-b6e4647ea986bbde4734.json",
+					"jsonFile" : "target-gmock-Debug-ae98c288bcc7d925a177.json",
 					"name" : "gmock",
 					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "gmock_main::@0f7bb11d64f3678238c7",
-					"jsonFile" : "target-gmock_main-Debug-a4d2464c85087438a057.json",
+					"jsonFile" : "target-gmock_main-Debug-c01060b426c00dd24c31.json",
 					"name" : "gmock_main",
 					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 4,
 					"id" : "gtest::@1ea2dfc0605fe3ab2a3f",
-					"jsonFile" : "target-gtest-Debug-9a74cc42126310360ffe.json",
+					"jsonFile" : "target-gtest-Debug-6e20635761bbae874faf.json",
 					"name" : "gtest",
 					"projectIndex" : 3
 				},
 				{
 					"directoryIndex" : 4,
 					"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f",
-					"jsonFile" : "target-gtest_main-Debug-7a5c3ce62f810fa6c951.json",
+					"jsonFile" : "target-gtest_main-Debug-45ac514ca3d05222e417.json",
 					"name" : "gtest_main",
 					"projectIndex" : 3
 				}
@@ -236,8 +236,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug",
-		"source" : "C:/Users/12893/Desktop/TensorLib/TensorLib"
+		"build" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug",
+		"source" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib"
 	},
 	"version" : 
 	{

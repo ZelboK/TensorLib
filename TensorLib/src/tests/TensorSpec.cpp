@@ -21,3 +21,9 @@ TEST(constructor, TensorAlgos) {
 	ASSERT_EQ(actual, expected);
 }
 
+TEST(copy_constructor, TensorAlgos) {
+	Tensor<1, float> test(32);
+	TensorAlgos::modifyTensorWithRandomInts(test);
+	Tensor<1, float> copied(test);
+	ASSERT_TRUE(test==copied);
+}
