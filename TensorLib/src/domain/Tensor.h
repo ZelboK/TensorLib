@@ -8,9 +8,10 @@
 #include <random>
 #include "DefaultTypes.h"
 #include <functional>
+#include <memory>
 
-template<int rank, Number T> requires (rank > 0)
-class TensorImplIterator;
+template<int rank, Number T, bool isConst> requires (rank > 0)
+class TensorIterator;
 
 template<int rank, Number T> requires (rank > 0)
 class Tensor {
@@ -21,8 +22,8 @@ public:
     using reference = value_type &;
     using const_reference = value_type const &;
     using pointer = value_type *;
-    using iterator = TensorImplIterator<rank, T>;
-    using const_iterator = TensorImplIterator<rank, T>;
+    using iterator = TensorIterator<rank, T, false>;
+    using const_iterator = TensorIterator<rank, T, true>;
     using const_pointer = value_type const *;
 
     explicit Tensor(size_type size) {
@@ -36,40 +37,40 @@ public:
 		size_ = size;
     }
 
-    Tensor(const Tensor &other) {
+    Tensor(const Tensor& other) {
         size_ = other.size_;
-        std::copy(other.begin(), other.end(), this->begin());
+		data_ = std::shared_ptr<T[]>(new T[size_], std::default_delete<T[]>());
+        std::copy(other.begin(), other.end(), data_.get());
     }
-
+//	Tensor(const Tensor& other) : size_(other.size_), data_(std::make_shared<T[]>(other.size_)) {
+//		std::copy(other.begin(), other.end(), data_.get());
+//	}
     Tensor &operator=(const Tensor &other) {
         if (this == &other) {
             return *this;
         }
         size_ = other.size_;
-        std::copy(other.data_, other.data_ + size_, data_);
+        std::copy(other.data_, ot  her.data_ + size_, std::back_inserter(data_));
         return *this;
     }
 
     Tensor() = default;
 
-	reference operator*() {
-		return data_[0];
-	}
 
     iterator begin() {
         return iterator(0, *this);
     }
 
     iterator end() {
-        return iterator(size_, this);
+        return iterator(size_, *this);
     }
 
     const_iterator begin() const {
-        return iterator(0, *this);
+        return const_iterator(0, *this);
     }
 
     const_iterator end() const {
-        return iterator(size_, *this);
+        return const_iterator(size_, *this);
     }
 
     reference operator[](size_type const pos) {
@@ -84,37 +85,27 @@ public:
         return this->size_;
     }
 
-    reference operator=(value_type &other) {
-        std::cout << " Time to break impl <3";
-    }
-
-    value_type &operator=(const value_type &other) const {
-        std::cout << " Time to break impl <3 in const";
-    }
-
-    reference at(size_type pos) {
-
-    }
-
     bool empty() const noexcept { return size_ == 0; }
 
     size_type capacity() const noexcept { return size_; }
 
 private:
-    std::shared_ptr<T> data_;
+    std::shared_ptr<T[]> data_;
     size_type size_ = 0;
  //   int columns; // found out at runtime
  //   int rows;
 
-    friend TensorImplIterator<rank, T>;
+    friend TensorIterator<rank, T, true>;
+	friend TensorIterator<rank, T, false>;
+
 };
 
 // TODO THINK ABOUT WHAT SHOULD BE PRIVATE AND PUBLIC!
-template<int rank, Number T> requires (rank > 0)
-class TensorImplIterator {
+template<int rank, Number T, bool isConst> requires (rank > 0)
+class TensorIterator {
 public:
     using value_type = T;
-    using self_type = TensorImplIterator<rank, T>;
+    using self_type = TensorIterator<rank, T, isConst>;
     using size_type = std::size_t;
     using difference_type = std::ptrdiff_t;
     using reference = value_type &;
@@ -123,10 +114,15 @@ public:
     using iterator_category = std::random_access_iterator_tag;
     using const_pointer = value_type const *;
 
-    explicit TensorImplIterator(
+    explicit TensorIterator(
             size_type const index,
             Tensor<rank, T> &buffer) :
             buffer_(buffer), index_(index) {}
+
+	explicit TensorIterator(
+		size_type const index,
+		const Tensor<rank, T> &buffer) :
+		buffer_(buffer), index_(index) {}
 
     self_type &operator++() {
         if (index_ >= buffer_.get().size())
@@ -147,10 +143,10 @@ public:
     }
 
     bool operator!=(self_type const &other) const {
-        return !(*this == other);
+        return *this != other;
     }
 
-	friend std::ostream& operator<<(std::ostream&os, TensorImplIterator<rank, T>& iter) {
+	friend std::ostream& operator<<(std::ostream&os, TensorIterator<rank, T, isConst>& iter) {
 		return os << iter.buffer_.get()[iter.index_] << " found" << std::endl;
 	}
 
@@ -237,8 +233,11 @@ public:
 
 
 private:
-    std::reference_wrapper<Tensor<rank, T>> buffer_;
-    size_type index_ = 0;
+	std::reference_wrapper<std::conditional_t<isConst, const Tensor<rank, T>, Tensor<rank, T>>
+			> buffer_;
+
+
+	size_type index_ = 0;
 
     bool compatible(self_type const &other) const {
         return buffer_.get().data_ ==

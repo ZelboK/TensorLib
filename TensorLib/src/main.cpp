@@ -24,7 +24,7 @@ TensorOut initialize_imgs(TensorIn first, TensorIn last, TensorOut out) {
 }
 
 // obviously this is trash code but im just experimenting
-auto graveyard() {
+Tensor<1, unsigned char> graveyard() {
   const std::string path = R"(C:\Users\12893\Desktop\TensorLib\TensorLib\shiki.jpg)";
   int width, height, channels;
   unsigned char *data = stbi_load(path.c_str(), &width, &height, &channels, 0);
@@ -50,44 +50,11 @@ void iAccept(Fn fn, int i) {
 }
 
 int main() {
-  auto tensor = graveyard();
-  auto tensor2 = graveyard();
-  std::vector<Tensor<1, unsigned char>> batch{ tensor, tensor2};
+  Tensor<1, unsigned char> tensor = graveyard();
+	Tensor<1, unsigned char> tensor2(tensor);
+ // std::vector<Tensor<1, unsigned char>> batch{tensor};
+
   Tensor<1, int> yo(32);
-  auto lambda = [](int cur) { return cur; };
 
-
-  auto assessed = TensorAlgos::computeMean<unsigned char, Tensor<1, unsigned char>>(tensor);
-  /*
-   *  'unary_fn<unsigned char (*)(Tensor<1, unsigned char>),
-   *  unsigned char>' evaluated to false
-      template<typename T, int rank, unary_fn<T> Function>
-   */
-  static_assert(unary_fn<
-	  decltype(TensorAlgos::computeMean<unsigned char, Tensor<1, unsigned char>>),
-	  Tensor<1, unsigned char>
-          >);
-  std::cout << (int)assessed;
   return 0;
 }
-
-/*
- * //	const std::string path = "shiki.jpg";
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, 100);
-
-	std::vector<int> myVector(10030);
-	std::generate(myVector.begin(), myVector.end(), [&](){ return dis(gen); });
-
-
-std::vector<float> createVec() {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, 100);
-
-	std::vector<float> myVector(2304923);
-	std::generate(myVector.begin(), myVector.end(), [&](){ return dis(gen); });
-	return myVector;
-}
- */
