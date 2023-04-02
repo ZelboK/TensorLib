@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "TensorLib"
+			"path" : "TensorLib.exe"
+		},
+		{
+			"path" : "TensorLib.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -49,7 +52,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
+					"fragment" : "-g -fdiagnostics-color=always"
 				},
 				{
 					"fragment" : "-std=gnu++20"
@@ -59,15 +62,15 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/include"
+					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/include"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/src/logic"
+					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/src/logic"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/include"
+					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/include"
 				}
 			],
 			"language" : "CXX",
@@ -107,14 +110,18 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "src/logic/libTensorAlgorithms.a",
+				"fragment" : "src\\logic\\libTensorAlgorithms.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "TensorLib",
-	"nameOnDisk" : "TensorLib",
+	"nameOnDisk" : "TensorLib.exe",
 	"paths" : 
 	{
 		"build" : ".",
@@ -151,7 +158,7 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "src/domain/tensor.h",
+			"path" : "src/domain/Tensor.h",
 			"sourceGroupIndex" : 1
 		},
 		{

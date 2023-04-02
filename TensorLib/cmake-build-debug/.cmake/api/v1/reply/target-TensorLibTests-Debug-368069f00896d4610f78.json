@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "src/tests/TensorLibTests"
+			"path" : "src/tests/TensorLibTests.exe"
+		},
+		{
+			"path" : "src/tests/TensorLibTests.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -52,7 +55,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
+					"fragment" : "-g -fdiagnostics-color=always"
 				},
 				{
 					"fragment" : "-std=gnu++20"
@@ -63,12 +66,12 @@
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
+					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
+					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
 				}
 			],
 			"language" : "CXX",
@@ -113,19 +116,23 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "../../lib/libgtest_main.a",
+				"fragment" : "lib\\libgtest_main.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "../../lib/libgtest.a",
+				"fragment" : "lib\\libgtest.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "TensorLibTests",
-	"nameOnDisk" : "TensorLibTests",
+	"nameOnDisk" : "TensorLibTests.exe",
 	"paths" : 
 	{
 		"build" : "src/tests",
