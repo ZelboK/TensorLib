@@ -23,7 +23,7 @@ namespace ModuleAlgorithms
 
 // return Type?
 	template<Number T, int rank>
-	Tensor<rank, T> normalize(T batchMean, T batchVariance);
+	Tensor<rank, T> normalize(Tensor<rank, T> tensor, T batchMean, T batchVariance);
 
 	template<Number T>
 	auto scaleAndShift(auto batch, auto learnA, auto learnB); // two learnable parameters
@@ -72,9 +72,9 @@ namespace ModuleAlgorithms
 	template<Number T, int rank>
 	Tensor<rank, T> normalize(Tensor<rank, T> tensor, T batchMean, T batchVariance)
 	{
-		T numerator = TensorAlgos::computeMean<T>(tensor) - batchMean;
-		T denom = (batchVariance*batchVariance) + epsilon;
 
+
+		tensor.map();
 	}
 }
 
