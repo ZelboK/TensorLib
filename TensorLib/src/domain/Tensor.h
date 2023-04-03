@@ -41,7 +41,7 @@ class Tensor
 		  size_(other.size_) {
 		std::copy(other.begin(), other.end(), data_.get());
 	}
-	
+
 	inline bool operator==(const Tensor& other)
 	{
 		return std::equal(begin(), end(), other.begin(), other.end());
@@ -58,13 +58,24 @@ class Tensor
 		if (this == &other)
 		{
 			return *this;
-		} // fix
+		}
 		size_ = other.size_;
 		std::copy(other.data_,
 			other.data_ + size_,
 			std::back_inserter(data_.get())); // test if this works
 		return *this;
 	}
+
+	template <unary_fn<T> Function>
+	Tensor<rank, T> map(Function fn) {
+		// this modifies itself, and returns itself. What happens when multiple threads call transform
+		// on the same tensor? since it is modifying it, it will not assure thread safety
+		for(auto& elem : *this) {
+			elem = fn(elem);
+		}
+		return *this;
+	}
+
 
 	Tensor() = default;
 
