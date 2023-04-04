@@ -72,9 +72,11 @@ namespace ModuleAlgorithms
 	template<Number T, int rank>
 	Tensor<rank, T> normalize(Tensor<rank, T> tensor, T batchMean, T batchVariance)
 	{
-
-
-		tensor.map();
+		tensor.map([&batchMean, &batchVariance](T cur) {
+			T numerator = cur - batchMean;
+			T denom = sqrt(batchVariance + epsilon);
+			return numerator/denom;
+		});
 	}
 }
 

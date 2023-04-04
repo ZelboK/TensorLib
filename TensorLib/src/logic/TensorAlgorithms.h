@@ -71,7 +71,7 @@ namespace TensorAlgos
 		int sum = 0;
 		size_t size = tensor.size();
 		// this doesn't have good cache reusing maybe because we aren't using blocks?
-#pragma omp parallel for reduction(+:sum)
+	#pragma omp parallel for reduction(+:sum)
 		for (int i = 0; i < size; i++)
 		{
 			sum += (int)tensor[i];

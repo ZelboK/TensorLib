@@ -14,8 +14,8 @@ project(googletest-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(googletest-populate
                      "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "URL" "https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip"
-                    SOURCE_DIR          "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src"
-                    BINARY_DIR          "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-build"
+                    SOURCE_DIR          "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src"
+                    BINARY_DIR          "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

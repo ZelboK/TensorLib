@@ -55,6 +55,6 @@ TEST_F(ModuleAlgosTest, normalize)
 		72, 81, 38, 100, 216, 70, 51, 41
 	};
 
-	Tensor<3, int> rgb = {red, green, blue};
+	Tensor<33, int> rgb = {red, green, blue};
 
 }
