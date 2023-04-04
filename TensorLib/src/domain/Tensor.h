@@ -30,6 +30,19 @@ class Tensor
 	{
 	}
 
+	Tensor(std::initializer_list<T> list)
+		: data_(std::shared_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
+		  size_(list.size())
+	{
+	}
+
+	template <int subranks>
+	Tensor(std::initializer_list<Tensor<subranks, T> > list)
+		: data_(std::shared_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
+		  size_(list.size())
+	{
+	}
+
 	explicit Tensor(T* data, int size)
 		: data_(std::shared_ptr<T[]>(data, std::default_delete<T[]>())),
 		  size_(size)

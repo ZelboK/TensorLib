@@ -5,18 +5,56 @@
 #include "../domain/Tensor.h"
 #include "../logic/ModuleAlgorithms.hpp"
 
-class ModuleTest : public ::testing::Test {
+class ModuleTest : public ::testing::Test
+{
  protected:
 
 };
 
-class ModuleAlgosTest : public ModuleTest {
+class ModuleAlgosTest : public ModuleTest
+{
  protected:
-	ModuleAlgosTest() {
+	ModuleAlgosTest()
+	{
 
 	}
 };
 
-TEST_F(ModuleAlgosTest, normalize) {
+TEST_F(ModuleAlgosTest, normalize)
+{
+	Tensor<1, int> red = {
+		23, 56, 192, 99, 12, 78, 164, 48,
+		48, 211, 55, 67, 0, 255, 34, 120,
+		128, 75, 24, 111, 204, 36, 59, 222,
+		187, 54, 18, 69, 81, 157, 66, 39,
+		37, 91, 123, 97, 172, 88, 42, 159,
+		250, 11, 195, 6, 214, 49, 147, 63,
+		87, 240, 112, 20, 131, 94, 26, 60,
+		77, 83, 33, 107, 219, 71, 58, 46
+	};
+
+	Tensor<1, int> blue = {
+		71, 66, 156, 84, 39, 69, 80, 118,
+		34, 190, 44, 109, 8, 253, 22, 115,
+		126, 82, 17, 106, 198, 30, 50, 217,
+		186, 42, 9, 64, 72, 150, 56, 28,
+		21, 96, 120, 90, 165, 89, 55, 160,
+		251, 1, 193, 5, 212, 38, 141, 54,
+		74, 231, 113, 16, 130, 93, 15, 57,
+		67, 79, 35, 110, 220, 77, 49, 40
+	};
+
+	Tensor<1, int> green = {
+		97, 180, 52, 73, 27, 200, 32, 144,
+		45, 210, 61, 37, 7, 254, 19, 121,
+		127, 78, 25, 104, 201, 40, 62, 218,
+		174, 57, 14, 67, 76, 155, 68, 35,
+		29, 88, 114, 92, 167, 85, 47, 162,
+		248, 4, 194, 10, 213, 43, 148, 65,
+		79, 235, 105, 24, 129, 95, 31, 53,
+		72, 81, 38, 100, 216, 70, 51, 41
+	};
+
+	Tensor<3, int> rgb = {red, green, blue};
 
 }
