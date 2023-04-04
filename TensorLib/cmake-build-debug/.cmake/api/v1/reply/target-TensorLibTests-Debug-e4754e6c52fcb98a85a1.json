@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "src/tests/TensorLibTests.exe"
-		},
-		{
-			"path" : "src/tests/TensorLibTests.pdb"
+			"path" : "src/tests/TensorLibTests"
 		}
 	],
 	"backtrace" : 1,
@@ -55,7 +52,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
 				},
 				{
 					"fragment" : "-std=gnu++20"
@@ -66,12 +63,12 @@
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
 				}
 			],
 			"language" : "CXX",
@@ -96,11 +93,11 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
+			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
+			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
 	"id" : "TensorLibTests::@08b4cb1648a15a99be29",
@@ -118,23 +115,19 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "lib\\libgtest_main.a",
+				"fragment" : "../../lib/libgtest_main.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "lib\\libgtest.a",
-				"role" : "libraries"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"fragment" : "../../lib/libgtest.a",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "TensorLibTests",
-	"nameOnDisk" : "TensorLibTests.exe",
+	"nameOnDisk" : "TensorLibTests",
 	"paths" : 
 	{
 		"build" : "src/tests",

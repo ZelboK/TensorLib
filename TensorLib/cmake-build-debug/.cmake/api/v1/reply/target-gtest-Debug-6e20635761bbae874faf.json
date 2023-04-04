@@ -79,10 +79,10 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
 				},
 				{
-					"fragment" : "-Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers"
+					"fragment" : " -DGTEST_HAS_PTHREAD=1  "
 				},
 				{
 					"fragment" : "-std=c++20"
@@ -92,11 +92,11 @@
 			[
 				{
 					"backtrace" : 6,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest/include"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
+					"path" : "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src/googletest"
 				}
 			],
 			"language" : "CXX",
@@ -126,7 +126,7 @@
 		],
 		"prefix" : 
 		{
-			"path" : "C:/Program Files (x86)/TensorLib"
+			"path" : "/usr/local"
 		}
 	},
 	"name" : "gtest",

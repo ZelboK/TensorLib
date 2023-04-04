@@ -7,6 +7,26 @@
 #include <functional>
 #include <memory>
 
+template <typename T>
+concept Ranked = requires {
+	typename T::rank_type;
+	typename T::size_type;
+};
+
+template <Ranked... Args>
+constexpr int acc_ranks() {
+	int sum = 0;
+	((sum += Args::rank_type::value), ...);
+	return sum;
+}
+
+template <Ranked... Args>
+constexpr int acc_size() {
+	int sum = 0;
+	((sum += Args::size_type::value), ...);
+	return sum;
+}
+
 template<int rank, Number T, bool isConst>
 requires (rank > 0)
 class TensorIterator;
@@ -18,40 +38,44 @@ class Tensor
  public:
 	using value_type = T;
 	using size_type = std::size_t;
+	using rank_type = std::integral_constant<int, rank>;
 	using reference = value_type&;
 	using const_reference = value_type const&;
 	using pointer = value_type*;
 	using iterator = TensorIterator<rank, T, false>;
 	using const_iterator = TensorIterator<rank, T, true>;
 
+
 	explicit Tensor(size_type size)
-		: data_(std::shared_ptr<T[]>(new T[size], std::default_delete<T[]>())),
+		: data_(std::make_shared<T[]>(size)),
 		  size_(size)
 	{
 	}
 
 	Tensor(std::initializer_list<T> list)
-		: data_(std::shared_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
+		: data_(std::make_shared<T[]>(list.size())),
 		  size_(list.size())
 	{
 	}
 
-	template <int subranks>
-	Tensor(std::initializer_list<Tensor<subranks, T> > list)
-		: data_(std::shared_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
-		  size_(list.size())
+	template<Ranked ... Ts>
+	Tensor(Ts ... ts)
+	requires(acc_ranks<Ts...>() == rank_type::value)
+		: data_(std::make_shared<T[]>(acc_size<Ts...>())),
+		  size_(0)
 	{
 	}
 
 	explicit Tensor(T* data, int size)
-		: data_(std::shared_ptr<T[]>(data, std::default_delete<T[]>())),
+		: data_(std::make_shared<T[]>(size)),
 		  size_(size)
 	{
 	}
 
 	Tensor(const Tensor& other)
-		: data_(std::shared_ptr<T[]>(new T[other.size_], std::default_delete<T[]>())),
-		  size_(other.size_) {
+		: data_(std::make_shared<T[]>(other.size())),
+		  size_(other.size_)
+	{
 		std::copy(other.begin(), other.end(), data_.get());
 	}
 
@@ -64,7 +88,6 @@ class Tensor
 	{
 		return std::equal(begin(), end(), other.begin(), other.end());
 	}
-
 
 	Tensor& operator=(const Tensor& other)
 	{
@@ -79,16 +102,17 @@ class Tensor
 		return *this;
 	}
 
-	template <unary_fn<T> Function>
-	Tensor<rank, T> map(Function fn) {
+	template<unary_fn<T> Function>
+	Tensor<rank, T> map(Function fn)
+	{
 		// this modifies itself, and returns itself. What happens when multiple threads call transform
 		// on the same tensor? since it is modifying it, it will not assure thread safety
-		for(auto& elem : *this) {
+		for (auto& elem : *this)
+		{
 			elem = fn(elem);
 		}
 		return *this;
 	}
-
 
 	Tensor() = default;
 
@@ -147,6 +171,9 @@ class Tensor
 	friend TensorIterator<rank, T, false>;
 
 };
+// * sizeof...(Ts)
+
+// (std::is_same<sizeof...(Ts), rank> && ...);
 
 // TODO THINK ABOUT WHAT SHOULD BE PRIVATE AND PUBLIC!
 template<int rank, Number T, bool isConst>
@@ -198,8 +225,8 @@ class TensorIterator
 		return compatible(other) && index_ == other.index_;
 	}
 
-
-	bool operator!=(self_type const &other) const {
+	bool operator!=(self_type const& other) const
+	{
 		return !(*this == other);
 	}
 
