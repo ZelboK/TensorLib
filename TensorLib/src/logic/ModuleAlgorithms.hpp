@@ -27,6 +27,7 @@ namespace ModuleAlgorithms
 
 	template<Number T>
 	auto scaleAndShift(auto batch, auto learnA, auto learnB); // two learnable parameters
+
 }
 // The behavior is non-deterministic if reduce is not associative or not commutative.
 // The behavior is undefined if reduce, or transform modifies any element or invalidates any
