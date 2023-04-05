@@ -9,7 +9,8 @@ add_executable(TensorLib
         src/domain/Linear.h
         src/domain/Module.h
         src/domain/Batch.h
-        src/domain/DefaultTypes.h)
+        src/domain/DefaultTypes.h
+        )
 
 file(DOWNLOAD "https://raw.githubusercontent.com/nothings/stb/master/stb_image.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image.h" SHOW_PROGRESS)
 
