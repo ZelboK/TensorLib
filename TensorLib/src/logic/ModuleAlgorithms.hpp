@@ -12,7 +12,7 @@ namespace ModuleAlgorithms
 	template<typename T, int rank, unary_fn<Tensor<rank, T>> Function>
 	T reduceMapBatch(const std::vector<Tensor<rank, T>>& batch, Function fn);
 
-	template<typename T, int rank, binary_fn<T, T> Function>
+	template<typename T, int rank, binary_fn<Tensor<rank, T>, T> Function>
 	T reduceFoldBatch(const std::vector<Tensor<rank, T>>& batch, T initial, Function fn);
 
 	template<int rank, Number T>
@@ -46,7 +46,7 @@ namespace ModuleAlgorithms
 		return sum / batch.size();
 	}
 
-	template<typename T, int rank, binary_fn<T, Tensor<rank, T>> Function>
+	template<typename T, int rank, binary_fn<Tensor<rank, T>, T> Function>
 	T reduceFoldBatch(const std::vector<Tensor<rank, T>>& batch, T initial, Function fn)
 	{
 		for (auto& tensor : batch)
@@ -68,8 +68,7 @@ namespace ModuleAlgorithms
 	{
 
 		return
-			reduceFoldBatch<T, rank,
-							decltype(TensorAlgos::computeVariance<T, Tensor<rank, T>>)>(batch,
+			reduceFoldBatch(batch,
 				0,
 				TensorAlgos::computeVariance<T, Tensor<rank, T>>);
 	}
