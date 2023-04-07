@@ -46,28 +46,32 @@ namespace ModuleAlgorithms
 		return sum / batch.size();
 	}
 
-	template<typename T, int rank, typename Function>
+	template<typename T, int rank, binary_fn<T, Tensor<rank, T>> Function>
 	T reduceFoldBatch(const std::vector<Tensor<rank, T>>& batch, T initial, Function fn)
 	{
 		for (auto& tensor : batch)
 		{
-			initial += fn(tensor);
+			initial = fn(tensor, initial);
 		}
-		return initial / batch.size();
+		return initial / batch.size(); // why are we dividing here
 	}
 
 	template<int rank, Number T>
 	T computeMeanBatch(const std::vector<Tensor<rank, T>>& batch)
 	{
 		return
-			reduceMapBatch(batch, TensorAlgos::computeMean<T>);
+			reduceMapBatch(batch, TensorAlgos::computeMean<T, Tensor<rank, T>>);
 	}
 
 	template<int rank, Number T>
 	T computeVarianceBatch(const std::vector<Tensor<rank, T>>& batch)
 	{
+
 		return
-			reduceFoldBatch(batch, 0, TensorAlgos::computeVariance<T>);
+			reduceFoldBatch<T, rank,
+							decltype(TensorAlgos::computeVariance<T, Tensor<rank, T>>)>(batch,
+				0,
+				TensorAlgos::computeVariance<T, Tensor<rank, T>>);
 	}
 
 	template<Number T, int rank>
@@ -77,11 +81,12 @@ namespace ModuleAlgorithms
 		T gamma,
 		T beta)
 	{
-		tensor.map([&batchMean, &batchVariance, &gamma, &beta](T cur) {
-			T numerator = cur - batchMean;
-			T denom = sqrt(batchVariance + epsilon);
-			T normalized = numerator/denom;
-			return (gamma*normalized) + beta;
+		tensor.map([&batchMean, &batchVariance, &gamma, &beta](T cur)
+		{
+		  T numerator = cur - batchMean;
+		  T denom = sqrt(batchVariance + epsilon);
+		  T normalized = numerator / denom;
+		  return (gamma * normalized) + beta;
 		});
 		// how do we develop the concept of learnability for ?
 		return tensor;

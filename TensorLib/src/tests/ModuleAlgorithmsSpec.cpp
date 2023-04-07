@@ -94,8 +94,10 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 	Tensor<3, float> normalizedRgb(normalizedRed, normalizedGreen, normalizedBlue);
 	Tensor<3, float> normalizedRgb2(normalizedGreen, normalizedBlue, normalizedRed);
 
-	Batch<double, Tensor<3, double>, 3> batch;
-	ModuleAlgorithms::normalize(red, 0.0f, 0.0f,0.0f,0.0f);
-	batch.forward();
+	std::vector<Tensor<3, double>> batch;
+	batch.emplace_back(rgb);
+	batch.emplace_back(rgb2);
+	Batch<double, Tensor<3, double>, 3> batchNorm(batch);
+	batchNorm.forward();
 
 }
