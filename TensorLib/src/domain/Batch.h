@@ -12,30 +12,27 @@ template<Number T, typename A, int rank>
 class Batch : Module<T>
 {
 	int in_features;
-	std::vector<A> batch;
+	std::vector<A> batch_;
  public:
-	Batch(int in_features, bool affine);
-	Batch();
+	explicit Batch(std::vector<A> batch) : batch_(batch) {
+
+	}
 	std::vector<Tensor<rank, T>> forward()
 	{
-		T mean = ModuleAlgorithms::computeMeanBatch(batch);
-		T variance = ModuleAlgorithms::computeVarianceBatch(batch);
+		T mean = ModuleAlgorithms::computeMeanBatch<rank, T>(batch_);
+		T variance = ModuleAlgorithms::computeVarianceBatch<rank, T>(batch_);
 
-		std::for_each(batch.begin(),
-			batch.end(),
+		std::for_each(batch_.begin(),
+			batch_.end(),
 			[&mean, &variance](Tensor<rank, T> cur)
 			{
 			  ModuleAlgorithms::normalize(cur, mean, variance, 1.0, 0.0);
 			});
-		return batch;
+		return batch_;
 	}
 
 };
-template<Number T, typename A, int rank>
-Batch<T, A, rank>::Batch()
-{
 
-}
 // i think Batch::rank >= Tensor::rank. Figure that out later.
 //template<Number T, int rank>
 //Batch<T, Tensor<rank, T>, rank> forward()

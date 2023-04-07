@@ -71,7 +71,7 @@ namespace TensorAlgos
 		int sum = 0;
 		size_t size = tensor.size();
 		// this doesn't have good cache reusing maybe because we aren't using blocks?
-	#pragma omp parallel for reduction(+:sum)
+		#pragma omp parallel for reduction(+:sum)
 		for (int i = 0; i < size; i++)
 		{
 			sum += (int)tensor[i];
@@ -82,7 +82,7 @@ namespace TensorAlgos
 	template<Number T, Container_V Tensor>
 	T computeVariance(const Tensor& tensor, T mean)
 	{
-		T curMean = computeMean(tensor);
+		T curMean = computeMean<T, Tensor>(tensor);
 		return (curMean - mean) * 2; // squared diff is this the fastest?
 	}
 
