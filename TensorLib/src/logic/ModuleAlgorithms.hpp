@@ -23,11 +23,11 @@ namespace ModuleAlgorithms
 
 // return Type?
 	template<Number T, int rank>
-	Tensor<rank, T> normalize(Tensor<rank, T> tensor, T batchMean, T batchVariance);
-
-	template<Number T>
-	auto scaleAndShift(auto batch, auto learnA, auto learnB); // two learnable parameters
-
+	Tensor<rank, T> normalize(Tensor<rank, T> tensor,
+		T batchMean,
+		T batchVariance,
+		T gamma,
+		T beta);
 }
 // The behavior is non-deterministic if reduce is not associative or not commutative.
 // The behavior is undefined if reduce, or transform modifies any element or invalidates any
@@ -71,13 +71,20 @@ namespace ModuleAlgorithms
 	}
 
 	template<Number T, int rank>
-	Tensor<rank, T> normalize(Tensor<rank, T> tensor, T batchMean, T batchVariance)
+	Tensor<rank, T> normalize(Tensor<rank, T> tensor,
+		T batchMean,
+		T batchVariance,
+		T gamma,
+		T beta)
 	{
-		tensor.map([&batchMean, &batchVariance](T cur) {
+		tensor.map([&batchMean, &batchVariance, &gamma, &beta](T cur) {
 			T numerator = cur - batchMean;
 			T denom = sqrt(batchVariance + epsilon);
-			return numerator/denom;
+			T normalized = numerator/denom;
+			return (gamma*normalized) + beta;
 		});
+		// how do we develop the concept of learnability for ?
+		return tensor;
 	}
 }
 

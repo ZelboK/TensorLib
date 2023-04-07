@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "../domain/Tensor.h"
 #include "../logic/ModuleAlgorithms.hpp"
+#include "../domain/Batch.h"
 
 class ModuleTest : public ::testing::Test
 {
@@ -22,7 +23,7 @@ class ModuleAlgosTest : public ModuleTest
 
 TEST_F(ModuleAlgosTest, batch_norm_2d)
 {
-	Tensor<1, int> red = {
+	Tensor<1, float> red = {
 		23, 56, 192, 99, 12, 78, 164, 48,
 		48, 211, 55, 67, 0, 255, 34, 120,
 		128, 75, 24, 111, 204, 36, 59, 222,
@@ -33,7 +34,7 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 		77, 83, 33, 107, 219, 71, 58, 46
 	};
 
-	Tensor<1, int> blue = {
+	Tensor<1, float> blue = {
 		71, 66, 156, 84, 39, 69, 80, 118,
 		34, 190, 44, 109, 8, 253, 22, 115,
 		126, 82, 17, 106, 198, 30, 50, 217,
@@ -44,7 +45,7 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 		67, 79, 35, 110, 220, 77, 49, 40
 	};
 
-	Tensor<1, int> green = {
+	Tensor<1, float> green = {
 		97, 180, 52, 73, 27, 200, 32, 144,
 		45, 210, 61, 37, 7, 254, 19, 121,
 		127, 78, 25, 104, 201, 40, 62, 218,
@@ -88,9 +89,13 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 		-0.4203, -0.2416, -0.8970, 0.2202, 1.8587, -0.2714, -0.6884, -0.8225
 	};
 
-	Tensor<3, int> rgb(red, green, blue);
-	Tensor<3, int> rgb2(green, blue, red);
+	Tensor<3, float> rgb(red, green, blue);
+	Tensor<3, float> rgb2(green, blue, red);
 	Tensor<3, float> normalizedRgb(normalizedRed, normalizedGreen, normalizedBlue);
 	Tensor<3, float> normalizedRgb2(normalizedGreen, normalizedBlue, normalizedRed);
+
+	Batch<double, Tensor<3, double>, 3> batch;
+	ModuleAlgorithms::normalize(red, 0.0f, 0.0f,0.0f,0.0f);
+	batch.forward();
 
 }
