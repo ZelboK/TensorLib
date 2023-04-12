@@ -46,13 +46,13 @@ class Tensor
 	static constexpr int rank = m_rank;
 
 	explicit Tensor(size_type size)
-		: data_(std::shared_ptr<T[]>(new T[size], std::default_delete<T[]>())),
+		: data_(std::unique_ptr<T[]>(new T[size], std::default_delete<T[]>())),
 		  size_(size)
 	{
 	}
 
 	Tensor(std::initializer_list<T> list)
-		: data_(std::shared_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
+		: data_(std::unique_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
 		  size_(list.size())
 	{
 	}
@@ -60,19 +60,19 @@ class Tensor
 	template<typename ... Ts>
 	Tensor(Ts ... ts)
 	requires (acc_ranks<Ts...>() == rank)
-	: data_(std::shared_ptr<T[]>(new T[acc_size(ts...)], std::default_delete<T[]>())),
+	: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)], std::default_delete<T[]>())),
 		  size_(acc_size(ts...))
 	{
 	}
 
 	explicit Tensor(T* data, int size)
-		: data_(std::shared_ptr<T[]>(new T[size], std::default_delete<T[]>())),
+		: data_(std::unique_ptr<T[]>(new T[size], std::default_delete<T[]>())),
 		  size_(size)
 	{
 	}
 
 	Tensor(const Tensor& other)
-		: data_(std::shared_ptr<T[]>(new T[other.size()], std::default_delete<T[]>())),
+		: data_(std::unique_ptr<T[]>(new T[other.size()], std::default_delete<T[]>())),
 		  size_(other.size_)
 	{
 		std::copy(other.begin(), other.end(), data_.get());
@@ -161,7 +161,7 @@ class Tensor
 	}
 
  private:
-	std::shared_ptr<T[]> data_;
+	std::unique_ptr<T[]> data_;
 	size_type size_ = 0;
 	//   int columns; // found out at runtime
 	//   int rows;

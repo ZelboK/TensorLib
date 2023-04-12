@@ -3,6 +3,7 @@
 add_library(TensorAlgorithms
         TensorAlgorithms.h
         TensorAlgorithms.cpp
+        FunctionalProgrammingAlgos.hpp
         ModuleAlgorithms.hpp ParallelAlgorithms.hpp)
 
 # Specify the include directories for the TensorAlgorithms library
