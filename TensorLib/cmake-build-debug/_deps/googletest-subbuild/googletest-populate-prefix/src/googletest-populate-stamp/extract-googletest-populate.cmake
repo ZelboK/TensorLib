@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Make file names absolute:
 #
-get_filename_component(filename "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/5376968f6948923e2411081fd9372e71a59d8e77.zip" ABSOLUTE)
-get_filename_component(directory "C:/Users/12893/Desktop/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src" ABSOLUTE)
+get_filename_component(filename "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/5376968f6948923e2411081fd9372e71a59d8e77.zip" ABSOLUTE)
+get_filename_component(directory "/Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug/_deps/googletest-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'
@@ -29,7 +29,7 @@ file(MAKE_DIRECTORY "${ut_dir}")
 # Extract it:
 #
 message(STATUS "extracting... [tar xfz]")
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xfz ${filename} --touch
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xfz ${filename} 
   WORKING_DIRECTORY ${ut_dir}
   RESULT_VARIABLE rv
 )

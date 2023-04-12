@@ -1,6 +1,33 @@
-/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /tmp/TensorLib -B /tmp/TensorLib/cmake-build-debug
--- Configuring incomplete, errors occurred!
-CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
-  CMake 3.24 or higher is required.  You are running version 3.18.4
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib -B /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug
+-- [download 3% complete]
+-- [download 5% complete]
+-- [download 11% complete]
+-- [download 17% complete]
+-- [download 23% complete]
+-- [download 28% complete]
+-- [download 40% complete]
+-- [download 46% complete]
+-- [download 51% complete]
+-- [download 57% complete]
+-- [download 69% complete]
+-- [download 80% complete]
+-- [download 86% complete]
+-- [download 98% complete]
+-- [download 100% complete]
+CMake Warning (dev) at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FetchContent.cmake:1267 (message):
+  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
+  not set.  The policy's OLD behavior will be used.  When using a URL
+  download, the timestamps of extracted files should preferably be that of
+  the time of extraction, otherwise code that depends on the extracted
+  contents might not be rebuilt if the URL changes.  The OLD behavior
+  preserves the timestamps from the archive instead, but this is usually not
+  what you want.  Update your project to the NEW behavior or specify the
+  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
+  robustness issue.
+Call Stack (most recent call first):
+  src/tests/CMakeLists.txt:2 (FetchContent_Declare)
+This warning is for project developers.  Use -Wno-dev to suppress it.
 
-
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug

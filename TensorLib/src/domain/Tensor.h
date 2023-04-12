@@ -7,29 +7,39 @@
 #include <functional>
 #include <memory>
 
-template<typename T>
-concept Ranked =
-requires {
-	typename T::size_type;
-};
-
-template<Ranked... Args>
+template<typename... Args>
+requires (... &&
+	requires(Args a) { typename Args::size_type; })
 constexpr int acc_ranks()
 {
 	return (Args::rank + ...);
 }
 
-template <typename... Ts>
-int acc_size(Ts&&... ts) {
-	auto get_size = [](auto& obj) { return obj.size(); };
+template<typename... Ts>
+int acc_size(Ts&& ... ts)
+{
+	auto get_size = [](auto& obj)
+	{ return obj.size(); };
 	return (0 + ... + get_size(ts));
 }
-
 
 template<int rank, Number T, bool isConst>
 requires (rank > 0)
 class TensorIterator;
 
+
+/*
+ * Tensor implementation that has evolved throughout the development of this
+ * application.
+ * It is evident, from the implementation, that a std::vector should have been used.
+ * So the context, was, I wanted to better understand C++ containers and
+ * how they worked. So I went from raw pointers and from the bottom up
+ * implementations for every method and type to using smart pointers and
+ * std algorithms.
+ *
+ * I also, wanted to get more comfortable with templates and compile time
+ * logic. It is important to keep that context/history when looking at this.
+ */
 template<int m_rank, Number T>
 requires (m_rank > 0)
 class Tensor
@@ -60,7 +70,7 @@ class Tensor
 	template<typename ... Ts>
 	Tensor(Ts ... ts)
 	requires (acc_ranks<Ts...>() == rank)
-	: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)], std::default_delete<T[]>())),
+		: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)], std::default_delete<T[]>())),
 		  size_(acc_size(ts...))
 	{
 	}
@@ -97,7 +107,7 @@ class Tensor
 		size_ = other.size_;
 		std::copy(other.data_,
 			other.data_ + size_,
-			std::back_inserter(data_.get())); // test if this works
+			data_.get());
 		return *this;
 	}
 
@@ -163,18 +173,14 @@ class Tensor
  private:
 	std::unique_ptr<T[]> data_;
 	size_type size_ = 0;
-	//   int columns; // found out at runtime
-	//   int rows;
+	// NOTE HOW DO WE ACCOUNT FOR COLUMNS, and ROWS, at runtime, and compile time?
+	// If we are working with images, for example, that logic will be done at run time.
 
 	friend TensorIterator<rank, T, true>;
 	friend TensorIterator<rank, T, false>;
 
 };
-// * sizeof...(Ts)
 
-// (std::is_same<sizeof...(Ts), rank> && ...);
-
-// TODO THINK ABOUT WHAT SHOULD BE PRIVATE AND PUBLIC!
 template<int rank, Number T, bool isConst>
 requires (rank > 0)
 class TensorIterator
@@ -291,8 +297,7 @@ class TensorIterator
 
 	self_type& operator+=(difference_type const offset)
 	{
-		difference_type next =
-			(index_ + next) % buffer_.get().capacity();
+		difference_type next = (index_ + offset) % buffer_.get().size();
 		if (next >= buffer_.get().size())
 			throw std::out_of_range("Iterator cannot be incremented past the bounds of the range");
 		index_ = next;

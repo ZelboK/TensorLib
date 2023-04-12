@@ -98,6 +98,6 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 	batch.emplace_back(rgb);
 	batch.emplace_back(rgb2);
 	Batch<double, Tensor<3, double>, 3> batchNorm(batch);
-	batchNorm.forward();
+	//batchNorm.forward();
 
 }

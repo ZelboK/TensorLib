@@ -1,11 +1,12 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.18.4)
 project(TensorLib)
 
 set(CMAKE_CXX_STANDARD 20)
 
+
 add_executable(TensorLib
         src/main.cpp
-        src/domain/tensor.h
+        src/domain/Tensor.h
         src/domain/Linear.h
         src/domain/Module.h
         src/domain/Batch.h
