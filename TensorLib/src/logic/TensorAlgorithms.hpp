@@ -4,20 +4,19 @@
 #include "../domain/Tensor.h"
 #include "../domain/DefaultTypes.h"
 #include <functional>
-#include <ranges>
 #include "FunctionalProgrammingAlgos.hpp"
 namespace TensorAlgos
 {
 	template<int N>
 	void printImageTensor(const Tensor<N, unsigned char>& tensor);
 
-	template<Container_V TensorIt, Container_V TensorOut, Number T, binary_fn<T, T> Functor>
-	T accumulate(const TensorIt& begin, const TensorOut& end, T initial, Functor fn);
+	template<Number T, class TensorIt, class Functor>
+	T accumulate(const TensorIt& begin, const TensorIt& end, T initial, Functor fn);
 
-	template<Container_V Tensor, Number T, typename Functor>
+	template<Number T, class Tensor, typename Functor>
 	T accumulate(const Tensor& tensor, T initial, Functor fn);
 
-	template<Number T, Container_V Tensor>
+	template<Number T, class Tensor>
 	T computeMean(const Tensor& tensor);
 
 // lacks referential transparency. If more than one thread is using this on the same
@@ -25,10 +24,10 @@ namespace TensorAlgos
 	template<typename Tensor>
 	Tensor modifyTensorWithRandomInts(Tensor& tensor);
 
-	template<Number T, Container_V Tensor>
+	template<Number T, class Tensor>
 	T computeVariance(const Tensor& tensor, T mean);
 
-	template<Number T, Container_V Tensor>
+	template<Number T, class Tensor>
 	T computeStandardDeviation(const Tensor& tensor, T mean);
 
 	template<Number T, class Tensor>
@@ -70,12 +69,9 @@ namespace TensorAlgos
 		return accumulate(tensor.begin(), tensor.end(), initial, fn);
 	}
 
-	template<int rank, Number T>
-	T computeMeans(Tensor<rank, T> tensor);
 
 	template<Number T, class Tensor>
 	requires(std::same_as<T, typename Tensor::value_type>)
-
 	T computeMean(const Tensor& tensor)
 	{
 		int sum = 0;
@@ -118,11 +114,11 @@ namespace TensorAlgos
 		std::constructible_from<Tensor, T>)
 	Tensor randTensor(int channels, int rows, int cols)
 	{
-		auto range = std::views::iota(0, channels) | std::views::transform([](int index)
-		{
-		  return FunctionalProgAlgos::randomColor();
-		});
-		Tensor result(range.begin(), range.end());
+//		auto range = std::views::iota(0, channels) | std::views::transform([](int index)
+//		{
+//		  return FunctionalProgAlgos::randomColor();
+//		});
+//		Tensor result(range.begin(), range.end());
 	}
 }
 

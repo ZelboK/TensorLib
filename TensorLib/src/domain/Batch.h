@@ -19,8 +19,8 @@ class Batch : Module<T>
 	}
 	std::vector<Tensor<rank, T>> forward()
 	{
-		T mean = ModuleAlgorithms::computeMeanBatch<rank, T>(batch_);
-		T variance = ModuleAlgorithms::computeVarianceBatch<rank, T>(batch_);
+		T mean = ModuleAlgorithms::computeMeanBatch(batch_);
+		T variance = ModuleAlgorithms::computeVarianceBatch(batch_);
 
 		std::for_each(batch_.begin(),
 			batch_.end(),

@@ -10,21 +10,21 @@
 
 namespace FunctionalProgAlgos {
 
-    template <Container_V first, Container_V second>
-    auto zipWith();
+//    template <class first, class second>
+//    auto zipWith();
 
-	unsigned char randomColor();
+//	unsigned char randomColor();
 
 }
 
 namespace FunctionalProgAlgos {
-	unsigned char randomColor() {
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dis(1, 255);
-
-		return dis(gen);
-	}
+//	unsigned char randomColor() {
+//		std::random_device rd;
+//		std::mt19937 gen(rd());
+//		std::uniform_int_distribution<> dis(1, 255);
+//
+//		return dis(gen);
+//	}
 }
 
 #endif //TENSORLIB_FUNCTIONALPROGRAMMINGALGOS_HPP

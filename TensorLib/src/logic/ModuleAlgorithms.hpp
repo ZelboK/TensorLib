@@ -4,9 +4,9 @@
 
 #ifndef TENSORLIB_TENSORLIB_SRC_LOGIC_MODULEALGORITHMS_HPP_
 #define TENSORLIB_TENSORLIB_SRC_LOGIC_MODULEALGORITHMS_HPP_
-#include "TensorAlgorithms.h"
+#include "TensorAlgorithms.hpp"
 #include "../domain/Tensor.h"
-
+#include "../domain/DefaultTypes.h"
 namespace ModuleAlgorithms
 {
 	template<Number T, class Tensor, class Function>

@@ -1,7 +1,7 @@
 
 # Create a library for TensorAlgorithms
 add_library(TensorAlgorithms
-        TensorAlgorithms.h
+        TensorAlgorithms.hpp
         TensorAlgorithms.cpp
         FunctionalProgrammingAlgos.hpp
         ModuleAlgorithms.hpp ParallelAlgorithms.hpp)

@@ -1,5 +1,0 @@
-# ninja log v5
-5	1667	7028466707960246	src/logic/CMakeFiles/TensorAlgorithms.dir/TensorAlgorithms.cpp.obj	fedb2d9ba68bec12
-0	1705	7028466708340240	CMakeFiles/TensorLib.dir/src/main.cpp.obj	e222770997f288bf
-1669	1749	7028466708800210	src/logic/libTensorAlgorithms.a	cacd4b27af4fd77c
-1749	2002	7028466711300206	TensorLib.exe	bf3b0ce2d5877b47

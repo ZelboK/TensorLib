@@ -10,16 +10,10 @@
 
 
 template <typename T>
-concept Number = std::is_arithmetic<T>::value;  // OK
+concept Number = std::is_arithmetic<T>::value;  // This concept can be further refined
+// to be more strict with types
 
 static float epsilon = 0.000005;
-
-template<typename T>
-concept Container_V =
-requires
-{
-	typename T::value_type;
-} && Number<typename T::value_type>;
 
 template<typename Op, typename Arg1, typename Arg2>
 concept binary_fn = std::invocable<Op, Arg1, Arg2>;
