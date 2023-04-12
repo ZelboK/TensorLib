@@ -4,7 +4,8 @@
 #include "../domain/Tensor.h"
 #include "../domain/DefaultTypes.h"
 #include <functional>
-
+#include <ranges>
+#include "FunctionalProgrammingAlgos.hpp"
 namespace TensorAlgos
 {
 	template<int N>
@@ -30,6 +31,8 @@ namespace TensorAlgos
 	template<Number T, Container_V Tensor>
 	T computeStandardDeviation(const Tensor& tensor, T mean);
 
+	template<Number T, class Tensor>
+	Tensor randTensor(int channels, int rows, int cols); // TODO this clearly does not take into account SHAPE.
 }
 
 namespace TensorAlgos
@@ -43,8 +46,11 @@ namespace TensorAlgos
 		}
 	}
 
-	template<Container_V TensorIt, Container_V TensorOut, Number T, binary_fn<T, T> Functor>
-	T accumulate(const TensorIt& begin, const TensorOut& end, T initial, Functor fn)
+	template<Number T, class TensorIt, class Functor>
+	requires(std::same_as<T, typename TensorIt::value_type> &&
+	    std::constructible_from<T, typename TensorIt::value_type> &&
+		std::invocable<Functor, T, T>)
+	T accumulate(const TensorIt& begin, const TensorIt& end, T initial, Functor fn)
 	{
 		T acc = initial;
 		int ctr = 0;
@@ -56,7 +62,9 @@ namespace TensorAlgos
 		return acc;
 	}
 
-	template<Container_V Tensor, Number T, typename Functor>
+	template<Number T, class Tensor, typename Functor>
+	requires(std::same_as<T, typename Tensor::value_type> &&
+	    	std::invocable<Functor, T>)
 	T accumulate(const Tensor& tensor, T initial, Functor fn)
 	{
 		return accumulate(tensor.begin(), tensor.end(), initial, fn);
@@ -65,7 +73,9 @@ namespace TensorAlgos
 	template<int rank, Number T>
 	T computeMeans(Tensor<rank, T> tensor);
 
-	template<Number T, Container_V Tensor>
+	template<Number T, class Tensor>
+	requires(std::same_as<T, typename Tensor::value_type>)
+
 	T computeMean(const Tensor& tensor)
 	{
 		int sum = 0;
@@ -79,7 +89,8 @@ namespace TensorAlgos
 		return (sum / size);
 	}
 
-	template<Number T, Container_V Tensor>
+	template<Number T, class Tensor>
+	requires(std::same_as<T, typename Tensor::value_type>)
 	T computeVariance(const Tensor& tensor, T mean)
 	{
 		T curMean = computeMean<T, Tensor>(tensor);
@@ -100,6 +111,18 @@ namespace TensorAlgos
 			elem = dis(gen);
 		}
 		return tensor;
+	}
+
+	template<Number T, class Tensor>
+	requires (std::same_as<typename Tensor::value_type, T> &&
+		std::constructible_from<Tensor, T>)
+	Tensor randTensor(int channels, int rows, int cols)
+	{
+		auto range = std::views::iota(0, channels) | std::views::transform([](int index)
+		{
+		  return FunctionalProgAlgos::randomColor();
+		});
+		Tensor result(range.begin(), range.end());
 	}
 }
 
