@@ -15,7 +15,7 @@ struct Convolution
 	std::vector<Container> weights;
 
 	Convolution(int inputChannels, int outputChannels, int kernelSize) {
-
+			// TODO IMPLEMENT
 	}
 };
 #endif //TENSORLIB_TENSORLIB_SRC_DOMAIN_CONVOLUTION_H_
