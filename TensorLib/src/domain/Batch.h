@@ -8,26 +8,26 @@
 #include "Module.h"
 #include "../logic/ModuleAlgorithms.hpp"
 
-template<Number T, typename A, int rank>
+template<Number T, class Tensor, int rank>
 class Batch : Module<T>
 {
 	int in_features;
-	std::vector<A> batch_;
+	std::vector<Tensor> batch_;
  public:
-	explicit Batch(std::vector<A> batch) : batch_(batch) {
+	explicit Batch(std::vector<Tensor> batch) : batch_(batch) {
 
 	}
-	std::vector<Tensor<rank, T>> forward()
+	std::vector<Tensor> forward()
 	{
-		T mean = ModuleAlgorithms::computeMeanBatch(batch_);
-		T variance = ModuleAlgorithms::computeVarianceBatch(batch_);
+		T mean = ModuleAlgorithms::computeMeanBatch<T, rank, Tensor>(batch_);
+		//T variance = ModuleAlgorithms::computeVarianceBatch<T, rank>(batch_);
 
-		std::for_each(batch_.begin(),
-			batch_.end(),
-			[&mean, &variance](Tensor<rank, T> cur)
-			{
-			  ModuleAlgorithms::normalize(cur, mean, variance, 1.0, 0.0);
-			});
+//		std::for_each(batch_.begin(),
+//			batch_.end(),
+//			[&mean, &variance](Tensor cur)
+//			{
+//			  ModuleAlgorithms::normalize(cur, mean, variance, 1.0, 0.0);
+//			});
 		return batch_;
 	}
 
