@@ -21,6 +21,21 @@ class ModuleAlgosTest : public ModuleTest
 	}
 };
 
+TEST_F(ModuleAlgosTest, reduceMapBatch)
+{
+	Tensor<3, int> random(32);
+	Tensor<3, int> random2(32);
+
+	TensorAlgos::modifyTensorWithRandomInts(random);
+	TensorAlgos::modifyTensorWithRandomInts(random2);
+	std::vector< Tensor<3, int>> batch{ random, random2 };
+
+	TensorAlgos::computeMean<int, Tensor<3, int>>(random);
+	ModuleAlgorithms::computeMeanBatch<int, 3>(batch);
+
+
+}
+
 TEST_F(ModuleAlgosTest, batch_norm_2d)
 {
 	Tensor<1, float> red = {

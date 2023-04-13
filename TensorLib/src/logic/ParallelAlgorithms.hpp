@@ -30,7 +30,7 @@ namespace ParAlgos
 		int sum = 0;
 		size_t size = batch.size();
 		// this doesn't have good cache reusing maybe because we aren't using blocks?
-#pragma omp parallel for reduction(+:sum)
+		#pragma omp parallel for reduction(+:sum)
 		for (auto& tensor : batch)
 		{
 			sum += computeMean(tensor);
@@ -45,7 +45,7 @@ namespace ParAlgos
 		int sum = 0;
 		size_t size = tensor.size();
 		// this doesn't have good cache reusing maybe because we aren't using blocks?
-#pragma omp parallel for reduction(+:sum)
+		#pragma omp parallel for reduction(+:sum)
 		for (auto& elem : tensor)
 		{
 			sum += elem;

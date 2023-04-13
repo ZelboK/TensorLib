@@ -10,10 +10,16 @@
 namespace ModuleAlgorithms
 {
 	template<Number T, class Tensor, class Function>
+	requires (std::same_as<T, typename Tensor::value_type> &&
+		std::invocable<Function, T> &&
+		requires { typename Tensor::rank; })
 	T reduceMapBatch(const std::vector<Tensor>& batch, Function fn);
 
 	template<Number T, class Tensor, class Function>
-	T reduceFoldBatch(const std::vector<Tensor>& batch, T initial, Function fn);
+	requires (std::same_as<T, typename Tensor::value_type> &&
+		std::invocable<Function, T, const Tensor&> &&
+		requires { typename Tensor::rank; })
+	T reduceFoldBatch(const std::vector<Tensor>& batch, Function fn);
 
 	template<Number T, int rank, class Tensor>
 	T computeMeanBatch(const std::vector<Tensor>& batch);
@@ -35,9 +41,6 @@ namespace ModuleAlgorithms
 namespace ModuleAlgorithms
 {
 	template<Number T, class Tensor, class Function>
-	requires (std::same_as<T, typename Tensor::value_type> &&
-		std::invocable<Function, T> &&
-		Tensor::rank) // Do we need rank as a constraint here?
 	T reduceMapBatch(const std::vector<Tensor>& batch, Function fn)
 	{
 		return
@@ -46,21 +49,25 @@ namespace ModuleAlgorithms
 	}
 
 	template<Number T, class Tensor, class Function>
-	requires (std::same_as<T, typename Tensor::value_type> &&
-		std::invocable<Function, Tensor, T> &&
-		Tensor::rank)
-	T reduceFoldBatch(const std::vector<Tensor>& batch, T initial, Function fn)
+	T reduceFoldBatch(const std::vector<Tensor>& batch, Function fn)
 	{
-
-		return
-			std::transform_reduce(batch.begin(), batch.end(), 0, std::plus<T>(), fn);
+		return std::accumulate(batch.begin(), batch.end(), T(0),
+			[&](T acc, const Tensor& cur)
+			{
+			  return fn(acc, cur);
+			});
 	}
 
 	template<Number T, int rank, class Tensor>
 	T computeMeanBatch(const std::vector<Tensor>& batch)
 	{
 		return
-			reduceMapBatch(batch, TensorAlgos::computeMean) / batch.size();
+			reduceMapBatch<T, Tensor>(batch,
+				[](const Tensor& cur)
+				{
+				  return TensorAlgos::computeMean<T>(cur);
+				}
+			) / batch.size();
 	}
 
 	template<Number T, int rank, class Tensor>
@@ -68,9 +75,12 @@ namespace ModuleAlgorithms
 	{
 
 		return
-			reduceFoldBatch(batch,
-				0,
-				TensorAlgos::computeVariance) / batch.size();
+			reduceFoldBatch<T, Tensor>(batch,
+				[](T acc, const Tensor cur)
+				{
+				  return TensorAlgos::computeVariance<T>(cur, acc);
+				}
+			) / batch.size();
 	}
 
 	template<Number T, int rank>
@@ -102,7 +112,6 @@ namespace ModuleAlgorithms
 		const T beta)
 	{
 		std::transform(tensor.begin(), tensor.end(), [&batchMean, &batchVariance, &gamma, &beta](T cur)
-
 		{
 		  T numerator = cur - batchMean;
 		  T denom = sqrt(batchVariance + epsilon);

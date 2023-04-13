@@ -87,6 +87,21 @@ namespace TensorAlgos
 
 	template<Number T, class Tensor>
 	requires(std::same_as<T, typename Tensor::value_type>)
+	T computeMeans(Tensor& tensor)
+	{
+		int sum = 0;
+		size_t size = tensor.size();
+		// this doesn't have good cache reusing maybe because we aren't using blocks?
+#pragma omp parallel for reduction(+:sum)
+		for (int i = 0; i < size; i++)
+		{
+			sum += (int)tensor[i];
+		}
+		return (sum / size);
+	}
+
+	template<Number T, class Tensor>
+	requires(std::same_as<T, typename Tensor::value_type>)
 	T computeVariance(const Tensor& tensor, T mean)
 	{
 		T curMean = computeMean<T, Tensor>(tensor);
