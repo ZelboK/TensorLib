@@ -21,22 +21,30 @@ class ModuleAlgosTest : public ModuleTest
 	}
 };
 
-TEST_F(ModuleAlgosTest, reduceMapBatch)
+TEST_F(ModuleTest, reduceMapBatch)
 {
 	Tensor<3, int> random(32);
 	Tensor<3, int> random2(32);
 
 	TensorAlgos::modifyTensorWithRandomInts(random);
 	TensorAlgos::modifyTensorWithRandomInts(random2);
-	std::vector< Tensor<3, int>> batch{ random, random2 };
+	std::vector< Tensor<3, int> > batch{ random, random2 };
+	int actualMean = ModuleAlgorithms::computeMeanBatch<int, 3>(batch);
 
-	TensorAlgos::computeMean<int, Tensor<3, int>>(random);
-	ModuleAlgorithms::computeMeanBatch<int, 3>(batch);
-
-
+	int expectedMean = 0;
+	int size = 0;
+	for(auto&tensor : batch) {
+		size += tensor.size();
+		for(auto&elem : tensor) {
+			expectedMean += elem;
+		}
+	}
+	expectedMean /= size;
+	double absolute_error = 1e-9;
+	ASSERT_NEAR(expectedMean, actualMean, absolute_error);
 }
 
-TEST_F(ModuleAlgosTest, batch_norm_2d)
+TEST_F(ModuleTest, batch_norm_2d)
 {
 	Tensor<1, float> red = {
 		23, 56, 192, 99, 12, 78, 164, 48,
@@ -113,6 +121,27 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 	batch.emplace_back(rgb);
 	batch.emplace_back(rgb2);
 	Batch<double, Tensor<3, double>, 3> batchNorm(batch);
-	//batchNorm.forward();
+	std::vector<Tensor<3, double>> vec = batchNorm.forward();
+
+	std::vector<Tensor<3, double>> expectedBatch;
+
+	expectedBatch.emplace_back(normalizedRgb);
+	expectedBatch.emplace_back(normalizedRgb2);
+	Batch<double, Tensor<3, double>, 3> expected(expectedBatch);
+
+	// assert both are equal in size ... or refactor later to use zip
+	for(int i = 0; i<batch.size();i++) {
+		Tensor<3, double> curTensor = vec[i];
+		Tensor<3, double> expectedTensor = expectedBatch[i];
+
+		for(int j = 0; j<curTensor.size(); j++)  {
+			double cur = curTensor[j];
+			double expected = expectedTensor[j];
+			std::cout << expected << "\n";
+			std::cout << cur << "\n";
+			ASSERT_EQ(cur, expected);
+		}
+	}
+
 
 }

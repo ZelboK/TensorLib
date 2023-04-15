@@ -27,13 +27,17 @@ namespace ModuleAlgorithms
 	template<Number T, int rank, class Tensor>
 	T computeVarianceBatch(const std::vector<Tensor>& batch);
 
-// return Type?
-	template<Number T, int rank>
-	Tensor<rank, T> normalize(Tensor<rank, T> tensor,
-		T batchMean,
-		T batchVariance,
-		T gamma,
-		T beta);
+	template<Number T, int rank, class Tensor>
+	requires (std::same_as<T, typename Tensor::value_type> &&
+		Tensor::rank == rank && // idk if we want this constraint.
+		Tensor::iterator) // This constraint may not be good
+	// what if T is anint, and value_type is a float?
+	Tensor batchNorm(Tensor tensor,
+		const T batchMean,
+		const T batchVariance,
+		const T gamma,
+		const T beta);
+
 }
 // The behavior is non-deterministic if reduce is not associative or not commutative.
 // The behavior is undefined if reduce, or transform modifies any element or invalidates any
@@ -52,7 +56,7 @@ namespace ModuleAlgorithms
 	T reduceFoldBatch(const std::vector<Tensor>& batch, Function fn)
 	{
 		return std::accumulate(batch.begin(), batch.end(), T(0),
-			[&](T acc, const Tensor& cur)
+			[&fn](T acc, const Tensor& cur)
 			{
 			  return fn(acc, cur);
 			});
@@ -73,7 +77,6 @@ namespace ModuleAlgorithms
 	template<Number T, int rank, class Tensor>
 	T computeVarianceBatch(const std::vector<Tensor>& batch)
 	{
-
 		return
 			reduceFoldBatch<T, Tensor>(batch,
 				[](T acc, const Tensor cur)
@@ -83,28 +86,7 @@ namespace ModuleAlgorithms
 			) / batch.size();
 	}
 
-	template<Number T, int rank>
-	Tensor<rank, T> normalize(Tensor<rank, T> tensor,
-		T batchMean,
-		T batchVariance,
-		T gamma,
-		T beta)
-	{
-		tensor.map([&batchMean, &batchVariance, &gamma, &beta](T cur)
-		{
-		  T numerator = cur - batchMean;
-		  T denom = sqrt(batchVariance + epsilon);
-		  T normalized = numerator / denom;
-		  return (gamma * normalized) + beta;
-		});
-		// how do we develop the concept of learnability for ?
-		return tensor;
-	}
 	template<Number T, int rank, class Tensor>
-	requires (std::same_as<T, typename Tensor::value_type> &&
-		Tensor::rank == rank && // idk if we want this constraint.
-		Tensor::iterator) // This constraint may not be good
-	// what if T is anint, and value_type is a float?
 	Tensor batchNorm(Tensor tensor,
 		const T batchMean,
 		const T batchVariance,

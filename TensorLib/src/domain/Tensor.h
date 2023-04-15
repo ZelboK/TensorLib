@@ -65,6 +65,7 @@ class Tensor
 		: data_(std::unique_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
 		  size_(list.size())
 	{
+		std::copy(list.begin(), list.end(), data_.get());
 	}
 
 	template<typename ... Ts>
@@ -357,15 +358,3 @@ class TensorIterator
 };
 
 #endif //TENSORLIB_TENSOR_H
-
-
-/*
- * i need to be able to organize my data in such a way that i can map tensors   `
- * in their abstract form to their implemented form
- * So this naturally draws the question of how do I define the boundaries
- * Of these tensors exactly? At what point(since it's represented as a 1D array)
- * Do i say hey: You are now belonging to row and col: N.
- * Should i simply return a formula for computing this? it's a simple operation
- * But one that would need to be done... repeatedly? No, it can be cached.
- *
- */
