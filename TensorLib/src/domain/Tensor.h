@@ -27,7 +27,6 @@ template<int rank, Number T, bool isConst>
 requires (rank > 0)
 class TensorIterator;
 
-
 /*
  * Tensor implementation that has evolved throughout the development of this
  * application.
@@ -63,7 +62,8 @@ class Tensor
 
 	Tensor(std::initializer_list<T> list)
 		: data_(std::unique_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
-		  size_(list.size())
+		  size_(list.size()),
+		  filled_(list.size())
 	{
 		std::copy(list.begin(), list.end(), data_.get());
 	}
@@ -71,20 +71,29 @@ class Tensor
 	template<typename ... Ts>
 	Tensor(Ts ... ts)
 	requires (acc_ranks<Ts...>() == rank)
-		: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)], std::default_delete<T[]>())),
-		  size_(acc_size(ts...))
+		: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)])),
+		  size_(acc_size(ts...)),
+		  filled_(acc_size(ts...)) // computes twice, probably don't want that
 	{
+		std::size_t offset = 0;
+		((std::copy(ts.begin(),
+			ts.end(),
+			data_.get() + offset),
+			offset += ts.size()
+		), ...);
 	}
 
 	explicit Tensor(T* data, int size)
 		: data_(std::unique_ptr<T[]>(new T[size], std::default_delete<T[]>())),
-		  size_(size)
+		  size_(size),
+		  filled_(size)
 	{
 	}
 
 	Tensor(const Tensor& other)
 		: data_(std::unique_ptr<T[]>(new T[other.size()], std::default_delete<T[]>())),
-		  size_(other.size_)
+		  size_(other.size_),
+		  filled_(other.size_)
 	{
 		std::copy(other.begin(), other.end(), data_.get());
 	}
@@ -173,6 +182,7 @@ class Tensor
 
  private:
 	std::unique_ptr<T[]> data_;
+	size_type filled_ = 0;
 	size_type size_ = 0;
 	// NOTE HOW DO WE ACCOUNT FOR COLUMNS, and ROWS, at runtime, and compile time?
 	// If we are working with images, for example, that logic will be done at run time.
@@ -182,11 +192,13 @@ class Tensor
 
 };
 
-template<int rank, Number T, bool isConst>
-requires (rank > 0)
+template<int m_rank, Number T, bool isConst>
+requires (m_rank > 0)
 class TensorIterator
 {
  public:
+	static constexpr int rank = m_rank;
+
 	using value_type = T;
 	using self_type = TensorIterator<rank, T, isConst>;
 	using size_type = std::size_t;
