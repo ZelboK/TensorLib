@@ -93,13 +93,17 @@ namespace ModuleAlgorithms
 		const T gamma,
 		const T beta)
 	{
-		std::transform(tensor.begin(), tensor.end(), [&batchMean, &batchVariance, &gamma, &beta](T cur)
-		{
-		  T numerator = cur - batchMean;
-		  T denom = sqrt(batchVariance + epsilon);
-		  T normalized = numerator / denom;
-		  return (gamma * normalized) + beta;
-		});
+
+		return std::transform(tensor.begin(),
+			tensor.end(),
+			tensor.begin(),
+			[&](T cur)
+			{
+			  T numerator = cur - batchMean;
+			  T denom = sqrt(batchVariance + epsilon);
+			  T normalized = numerator / denom;
+			  return (gamma * normalized) + beta;
+			});
 
 	}
 }

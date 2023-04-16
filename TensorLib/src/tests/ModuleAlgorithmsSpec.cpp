@@ -121,7 +121,26 @@ TEST_F(ModuleTest, batch_norm_2d)
 	batch.emplace_back(rgb);
 	batch.emplace_back(rgb2);
 	Batch<double, Tensor<3, double>, 3> batchNorm(batch);
+
+	for(auto & tensor : batch) {
+		for(auto& elem : tensor) {
+			std::cout << elem << ", ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+	std::cout << "\n";
+	std::cout << "\n";
+	std::cout << "\n";
+
 	std::vector<Tensor<3, double>> vec = batchNorm.forward();
+
+	for(auto & tensor : vec) {
+		for(auto& elem : tensor) {
+			std::cout << elem << ", ";
+		}
+		std::cout << "\n";
+	}
 
 	std::vector<Tensor<3, double>> expectedBatch;
 
@@ -142,6 +161,7 @@ TEST_F(ModuleTest, batch_norm_2d)
 			ASSERT_EQ(cur, expected);
 		}
 	}
+
 
 
 }

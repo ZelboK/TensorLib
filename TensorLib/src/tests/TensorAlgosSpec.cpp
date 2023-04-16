@@ -63,6 +63,17 @@ TEST_F(TensorAlgosTest, ComputeMean)
 TEST_F(TensorAlgosTest, CopyConstructor)
 {
 	Tensor<1, float> copied(test);
-	std::vector::insert();
+	ASSERT_TRUE(test == copied);
+}
+
+
+TEST_F(TensorAlgosTest, std_transform)
+{
+	Tensor<1, float> copied(test);
+	std::transform(copied.begin(), copied.end(), copied.begin(), [](float cur) {
+		return cur;
+	});
+
+
 	ASSERT_TRUE(test == copied);
 }

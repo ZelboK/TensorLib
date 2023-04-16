@@ -70,19 +70,29 @@ TEST(TensorImplTest, Tensor_Constructor_init_list)
 	};
 	Tensor<1, float> green = { greenInit };
 
-
 	Tensor<3, float> rgb(red, green, blue);
 	std::vector<float> rgbValues;
+
 	EXPECT_EQ(red.size(), redInit.size());
 	EXPECT_EQ(green.size(), greenInit.size());
 	EXPECT_EQ(blue.size(), blueInit.size());
 	EXPECT_EQ(red.size()+green.size()+blue.size(), rgb.size());
+
 	EXPECT_TRUE(std::equal(red.begin(), red.end(), redInit.begin()));
 	EXPECT_TRUE(std::equal(green.begin(), green.end(), greenInit.begin()));
 	EXPECT_TRUE(std::equal(blue.begin(), blue.end(), blueInit.begin()));
-	std::vector::push(rgbValues.end(), redInit.begin(), redInit.end());
-//	for(auto& elem : rgb) {
-//		std::cout << elem << ", ";
-//	}
+
+	rgbValues.insert(rgbValues.end(), redInit.begin(), redInit.end());
+	rgbValues.insert(rgbValues.end(), greenInit.begin(), greenInit.end());
+	rgbValues.insert(rgbValues.end(), blueInit.begin(), blueInit.end());
+
+	EXPECT_TRUE(std::equal(rgbValues.begin(), rgbValues.end(), rgb.begin()));
+
+	for(int i = 0; i< rgbValues.size(); i++) {
+		std::cout << rgbValues[i] << " vec,";
+		std::cout << rgb[i] << " tensor,\n";
+	}
+
+
 
 }
