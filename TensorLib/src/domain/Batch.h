@@ -20,16 +20,21 @@ class Batch : Module<T>
 	std::vector<Tensor> forward()
 	{
 		T mean = ModuleAlgorithms::computeMeanBatch<T, rank, Tensor>(batch_);
-		T variance = ModuleAlgorithms::computeVarianceBatch<T, rank>(batch_);
+		T variance = ModuleAlgorithms::computeVarianceBatch<T, rank, Tensor>(batch_);
 
-		std::for_each(batch_.begin(),
-			batch_.end(),
-			[&mean, &variance](Tensor cur)
-			{
-			  ModuleAlgorithms::batchNorm<T, rank, Tensor>(cur, mean, variance, 1.0, 0.0);
-			});
-		return batch_;
+		std::vector<Tensor> normalized_batch;
+		normalized_batch.reserve(batch_.size());
+		for (const auto& cur : batch_) {
+			Tensor normalized_tensor = cur;
+			ModuleAlgorithms::batchNorm<T, rank, Tensor>(normalized_tensor, mean, variance, 1.0, 0.0);
+
+			normalized_batch.push_back(normalized_tensor);
+		}
+
+		return normalized_batch;
 	}
+
+
 
 };
 

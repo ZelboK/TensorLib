@@ -7,6 +7,8 @@
 #include <functional>
 #include <memory>
 
+#include <iterator> // Add this header for std::distance
+
 template<typename... Args>
 requires (... &&
 	requires(Args a) { typename Args::size_type; })
@@ -19,10 +21,20 @@ template<typename... Ts>
 int acc_size(Ts&& ... ts)
 {
 	auto get_size = [](auto& obj)
-	{ return obj.size(); };
+	{
+	  using obj_type = std::decay_t<decltype(obj)>;
+	  if constexpr (std::is_same_v<obj_type, typename obj_type::iterator> ||
+		  std::is_same_v<obj_type, typename obj_type::const_iterator>)
+	  {
+		  return std::distance(obj.begin(), obj.end());
+	  }
+	  else
+	  {
+		  return obj.size();
+	  }
+	};
 	return (0 + ... + get_size(ts));
 }
-
 template<int rank, Number T, bool isConst>
 requires (rank > 0)
 class TensorIterator;
@@ -79,8 +91,18 @@ class Tensor
 		((std::copy(ts.begin(),
 			ts.end(),
 			data_.get() + offset),
-			offset += ts.size()
+			offset += std::distance(ts.begin(), ts.end())
 		), ...);
+	}
+
+
+	template<typename InputIt>
+	Tensor(InputIt first, InputIt last)
+		: data_(std::unique_ptr<T[]>(new T[std::distance(first, last)])),
+		  size_(std::distance(first, last)),
+		  filled_(std::distance(first, last))
+	{
+		std::copy(first, last, data_.get());
 	}
 
 	explicit Tensor(T* data, int size)
@@ -207,6 +229,8 @@ class TensorIterator
 	using const_reference = value_type const&;
 	using pointer = value_type*;
 	using iterator_category = std::random_access_iterator_tag;
+	using iterator = TensorIterator<rank, T, false>;
+	using const_iterator = TensorIterator<rank, T, true>;
 
 	explicit TensorIterator(
 		size_type const index,
@@ -221,7 +245,23 @@ class TensorIterator
 		buffer_(buffer), index_(index)
 	{
 	}
+	iterator begin()
+	{
+		return iterator(0, buffer_);
+	}
 
+	// Implement the const version of the begin function
+	const_iterator begin() const
+	{
+		return const_iterator(0, buffer_);
+	}
+
+	self_type end(size_type end_index = std::numeric_limits<size_type>::max())
+	{
+		if (end_index > buffer_.get().size())
+			end_index = buffer_.get().size();
+		return self_type(end_index, buffer_.get());
+	}
 	self_type& operator++()
 	{
 		if (index_ >= buffer_.get().size())
