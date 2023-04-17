@@ -29,14 +29,13 @@ namespace ModuleAlgorithms
 
 	template<Number T, int rank, class Tensor>
 	requires (std::same_as<T, typename Tensor::value_type> &&
-		Tensor::rank == rank && // idk if we want this constraint.
-		Tensor::iterator) // This constraint may not be good
+		Tensor::rank == rank) // This constraint may not be good
 	// what if T is anint, and value_type is a float?
 	Tensor batchNorm(Tensor tensor,
-		const T batchMean,
-		const T batchVariance,
-		const T gamma,
-		const T beta);
+		T batchMean,
+		T batchVariance,
+		T gamma,
+		T beta);
 
 }
 // The behavior is non-deterministic if reduce is not associative or not commutative.
@@ -87,21 +86,27 @@ namespace ModuleAlgorithms
 	}
 
 	template<Number T, int rank, class Tensor>
+	requires (std::same_as<T, typename Tensor::value_type> &&
+		Tensor::rank == rank)
 	Tensor batchNorm(Tensor tensor,
-		const T batchMean,
-		const T batchVariance,
-		const T gamma,
-		const T beta)
+		T batchMean,
+		T batchVariance,
+		T gamma,
+		T beta)
 	{
 
-		return std::transform(tensor.begin(),
+		return std::transform(
+			tensor.begin(),
 			tensor.end(),
 			tensor.begin(),
 			[&](T cur)
 			{
 			  T numerator = cur - batchMean;
 			  T denom = sqrt(batchVariance + epsilon);
+
 			  T normalized = numerator / denom;
+			//  std::cout << normalized << ", ";
+
 			  return (gamma * normalized) + beta;
 			});
 
