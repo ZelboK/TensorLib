@@ -27,15 +27,9 @@ namespace ModuleAlgorithms
 	template<Number T, int rank, class Tensor>
 	T computeVarianceBatch(const std::vector<Tensor>& batch);
 
-	template<Number T, int rank, class Tensor>
-	requires (std::same_as<T, typename Tensor::value_type> &&
-		Tensor::rank == rank) // This constraint may not be good
-	// what if T is anint, and value_type is a float?
-	Tensor batchNorm(Tensor tensor,
-		T batchMean,
-		T batchVariance,
-		T gamma,
-		T beta);
+	template<Number T, int rank, typename Tensor>
+	requires (std::same_as<T, typename Tensor::value_type> && Tensor::rank == rank)
+	Tensor batchNorm(const Tensor& tensor, T batchMean, T batchVariance, T gamma, T beta);
 
 }
 // The behavior is non-deterministic if reduce is not associative or not commutative.
@@ -47,10 +41,10 @@ namespace ModuleAlgorithms
 	T reduceMapBatch(const std::vector<Tensor>& batch, Function fn)
 	{
 		return
-			std::transform_reduce(batch.begin(), batch.end(), 0, std::plus<T>(), fn);
+			std::transform_reduce(batch.begin(), batch.end(), T(0), std::plus<T>(), fn);
 
 	}
-
+	// what did i make this for again...?
 	template<Number T, class Tensor, class Function>
 	T reduceFoldBatch(const std::vector<Tensor>& batch, Function fn)
 	{
@@ -76,40 +70,47 @@ namespace ModuleAlgorithms
 	template<Number T, int rank, class Tensor>
 	T computeVarianceBatch(const std::vector<Tensor>& batch)
 	{
-		return
-			reduceFoldBatch<T, Tensor>(batch,
-				[](T acc, const Tensor cur)
-				{
-				  return TensorAlgos::computeVariance<T>(cur, acc);
-				}
-			) / batch.size();
-	}
+		T batchMean = computeMeanBatch<T, rank, Tensor>(batch);
+		std::vector<T> means(batch.size());
 
-	template<Number T, int rank, class Tensor>
-	requires (std::same_as<T, typename Tensor::value_type> &&
-		Tensor::rank == rank)
-	Tensor batchNorm(Tensor tensor,
-		T batchMean,
-		T batchVariance,
-		T gamma,
-		T beta)
-	{
-
-		return std::transform(
-			tensor.begin(),
-			tensor.end(),
-			tensor.begin(),
-			[&](T cur)
+		std::transform(batch.begin(),
+			batch.end(),
+			means.begin(),
+			[](Tensor cur)
 			{
-			  T numerator = cur - batchMean;
-			  T denom = sqrt(batchVariance + epsilon);
-
-			  T normalized = numerator / denom;
-			//  std::cout << normalized << ", ";
-
-			  return (gamma * normalized) + beta;
+			  T mean = TensorAlgos::computeMean<T, Tensor>(cur);
+			  return mean;
 			});
 
+		return std::accumulate(
+			means.begin(), means.end(), T(0),
+			[&batchMean](T acc, T curMean)
+			{
+			  T diff = batchMean - curMean;
+			  return acc + (diff * diff);
+			}
+		) / batch.size();
+
+	}
+
+	template<Number T, int rank, typename Tensor>
+	requires (std::same_as<T, typename Tensor::value_type> && Tensor::rank == rank)
+	Tensor batchNorm(const Tensor& tensor, T batchMean, T batchVariance, T gamma, T beta)
+	{
+		T epsilon = std::numeric_limits<T>::epsilon() * 1e2;
+		Tensor result = tensor;
+
+		std::transform(tensor.begin(), tensor.end(), result.begin(), [&](T cur)
+		{
+		  T numerator = cur - batchMean;
+		  T denom = std::sqrt(batchVariance + epsilon);
+
+		  T normalized = numerator / denom;
+
+		  return (gamma * normalized) + beta;
+		});
+
+		return result;
 	}
 }
 
