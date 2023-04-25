@@ -1,5 +1,17 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib -B /Users/danialjavady/Desktop/ksm/TensorLib/TensorLib/cmake-build-debug
--- [download 3% complete]
+-- The C compiler identification is AppleClang 14.0.3.14030022
+-- The CXX compiler identification is AppleClang 14.0.3.14030022
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- [download 4% complete]
 -- [download 5% complete]
 -- [download 11% complete]
 -- [download 17% complete]
@@ -7,14 +19,14 @@
 -- [download 28% complete]
 -- [download 40% complete]
 -- [download 46% complete]
--- [download 51% complete]
 -- [download 57% complete]
+-- [download 63% complete]
 -- [download 69% complete]
 -- [download 80% complete]
--- [download 86% complete]
+-- [download 92% complete]
 -- [download 98% complete]
 -- [download 100% complete]
-CMake Warning (dev) at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FetchContent.cmake:1267 (message):
+CMake Warning (dev) at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.25/Modules/FetchContent.cmake:1284 (message):
   The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
   not set.  The policy's OLD behavior will be used.  When using a URL
   download, the timestamps of extracted files should preferably be that of

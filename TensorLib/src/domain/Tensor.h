@@ -7,6 +7,8 @@
 #include <functional>
 #include <memory>
 
+#include <iterator> // Add this header for std::distance
+
 template<typename... Args>
 requires (... &&
 	requires(Args a) { typename Args::size_type; })
@@ -19,14 +21,23 @@ template<typename... Ts>
 int acc_size(Ts&& ... ts)
 {
 	auto get_size = [](auto& obj)
-	{ return obj.size(); };
+	{
+	  using obj_type = std::decay_t<decltype(obj)>;
+	  if constexpr (std::is_same_v<obj_type, typename obj_type::iterator> ||
+		  std::is_same_v<obj_type, typename obj_type::const_iterator>)
+	  {
+		  return std::distance(obj.begin(), obj.end());
+	  }
+	  else
+	  {
+		  return obj.size();
+	  }
+	};
 	return (0 + ... + get_size(ts));
 }
-
 template<int rank, Number T, bool isConst>
 requires (rank > 0)
 class TensorIterator;
-
 
 /*
  * Tensor implementation that has evolved throughout the development of this
@@ -63,27 +74,48 @@ class Tensor
 
 	Tensor(std::initializer_list<T> list)
 		: data_(std::unique_ptr<T[]>(new T[list.size()], std::default_delete<T[]>())),
-		  size_(list.size())
+		  size_(list.size()),
+		  filled_(list.size())
 	{
+		std::copy(list.begin(), list.end(), data_.get());
 	}
 
 	template<typename ... Ts>
 	Tensor(Ts ... ts)
 	requires (acc_ranks<Ts...>() == rank)
-		: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)], std::default_delete<T[]>())),
-		  size_(acc_size(ts...))
+		: data_(std::unique_ptr<T[]>(new T[acc_size(ts...)])),
+		  size_(acc_size(ts...)),
+		  filled_(acc_size(ts...)) // computes twice, probably don't want that
 	{
+		std::size_t offset = 0;
+		((std::copy(ts.begin(),
+			ts.end(),
+			data_.get() + offset),
+			offset += std::distance(ts.begin(), ts.end())
+		), ...);
+	}
+
+
+	template<typename InputIt>
+	Tensor(InputIt first, InputIt last)
+		: data_(std::unique_ptr<T[]>(new T[std::distance(first, last)])),
+		  size_(std::distance(first, last)),
+		  filled_(std::distance(first, last))
+	{
+		std::copy(first, last, data_.get());
 	}
 
 	explicit Tensor(T* data, int size)
 		: data_(std::unique_ptr<T[]>(new T[size], std::default_delete<T[]>())),
-		  size_(size)
+		  size_(size),
+		  filled_(size)
 	{
 	}
 
 	Tensor(const Tensor& other)
 		: data_(std::unique_ptr<T[]>(new T[other.size()], std::default_delete<T[]>())),
-		  size_(other.size_)
+		  size_(other.size_),
+		  filled_(other.size_)
 	{
 		std::copy(other.begin(), other.end(), data_.get());
 	}
@@ -172,6 +204,7 @@ class Tensor
 
  private:
 	std::unique_ptr<T[]> data_;
+	size_type filled_ = 0;
 	size_type size_ = 0;
 	// NOTE HOW DO WE ACCOUNT FOR COLUMNS, and ROWS, at runtime, and compile time?
 	// If we are working with images, for example, that logic will be done at run time.
@@ -181,11 +214,13 @@ class Tensor
 
 };
 
-template<int rank, Number T, bool isConst>
-requires (rank > 0)
+template<int m_rank, Number T, bool isConst>
+requires (m_rank > 0)
 class TensorIterator
 {
  public:
+	static constexpr int rank = m_rank;
+
 	using value_type = T;
 	using self_type = TensorIterator<rank, T, isConst>;
 	using size_type = std::size_t;
@@ -194,6 +229,8 @@ class TensorIterator
 	using const_reference = value_type const&;
 	using pointer = value_type*;
 	using iterator_category = std::random_access_iterator_tag;
+	using iterator = TensorIterator<rank, T, false>;
+	using const_iterator = TensorIterator<rank, T, true>;
 
 	explicit TensorIterator(
 		size_type const index,
@@ -208,7 +245,23 @@ class TensorIterator
 		buffer_(buffer), index_(index)
 	{
 	}
+	iterator begin()
+	{
+		return iterator(0, buffer_);
+	}
 
+	// Implement the const version of the begin function
+	const_iterator begin() const
+	{
+		return const_iterator(0, buffer_);
+	}
+
+	self_type end(size_type end_index = std::numeric_limits<size_type>::max())
+	{
+		if (end_index > buffer_.get().size())
+			end_index = buffer_.get().size();
+		return self_type(end_index, buffer_.get());
+	}
 	self_type& operator++()
 	{
 		if (index_ >= buffer_.get().size())
@@ -357,15 +410,3 @@ class TensorIterator
 };
 
 #endif //TENSORLIB_TENSOR_H
-
-
-/*
- * i need to be able to organize my data in such a way that i can map tensors   `
- * in their abstract form to their implemented form
- * So this naturally draws the question of how do I define the boundaries
- * Of these tensors exactly? At what point(since it's represented as a 1D array)
- * Do i say hey: You are now belonging to row and col: N.
- * Should i simply return a formula for computing this? it's a simple operation
- * But one that would need to be done... repeatedly? No, it can be cached.
- *
- */

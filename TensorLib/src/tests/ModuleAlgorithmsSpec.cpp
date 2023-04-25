@@ -9,6 +9,38 @@
 class ModuleTest : public ::testing::Test
 {
  protected:
+	std::vector<float> r = {
+		23, 56, 192, 99, 12, 78, 164, 48,
+		48, 211, 55, 67, 0, 255, 34, 120,
+		128, 75, 24, 111, 204, 36, 59, 222,
+		187, 54, 18, 69, 81, 157, 66, 39,
+		37, 91, 123, 97, 172, 88, 42, 159,
+		250, 11, 195, 6, 214, 49, 147, 63,
+		87, 240, 112, 20, 131, 94, 26, 60,
+		77, 83, 33, 107, 219, 71, 58, 46
+	};
+
+	std::vector<float> g = {
+		97, 180, 52, 73, 27, 200, 32, 144,
+		45, 210, 61, 37, 7, 254, 19, 121,
+		127, 78, 25, 104, 201, 40, 62, 218,
+		174, 57, 14, 67, 76, 155, 68, 35,
+		29, 88, 114, 92, 167, 85, 47, 162,
+		248, 4, 194, 10, 213, 43, 148, 65,
+		79, 235, 105, 24, 129, 95, 31, 53,
+		72, 81, 38, 100, 216, 70, 51, 41
+	};
+
+	std::vector<float> b = {
+		71, 66, 156, 84, 39, 69, 80, 118,
+		34, 190, 44, 109, 8, 253, 22, 115,
+		126, 82, 17, 106, 198, 30, 50, 217,
+		186, 42, 9, 64, 72, 150, 56, 28,
+		21, 96, 120, 90, 165, 89, 55, 160,
+		251, 1, 193, 5, 212, 38, 141, 54,
+		74, 231, 113, 16, 130, 93, 15, 57,
+		67, 79, 35, 110, 220, 77, 49, 40
+	};
 
 };
 
@@ -21,7 +53,68 @@ class ModuleAlgosTest : public ModuleTest
 	}
 };
 
-TEST_F(ModuleAlgosTest, batch_norm_2d)
+TEST_F(ModuleTest, reduceMapBatch)
+{
+	Tensor<3, int> random(32);
+	Tensor<3, int> random2(32);
+
+	TensorAlgos::modifyTensorWithRandomInts(random);
+	TensorAlgos::modifyTensorWithRandomInts(random2);
+	std::vector<Tensor<3, int> > batch{ random, random2 };
+	int actualMean = ModuleAlgorithms::computeMeanBatch<int, 3>(batch);
+
+	int expectedMean = 0;
+	int size = 0;
+	for (auto& tensor : batch)
+	{
+		size += tensor.size();
+		for (auto& elem : tensor)
+		{
+			expectedMean += elem;
+		}
+	}
+	expectedMean /= size;
+	double absolute_error = 1e-9;
+	ASSERT_NEAR(expectedMean, actualMean, absolute_error);
+}
+
+TEST_F(ModuleTest, batchVariance)
+{
+	std::vector<std::vector<float>> batch{ r, g, b };
+	std::vector<float> savedMeans;
+	float mean = 0;
+	for (auto& vecTensor : batch)
+	{
+		float curMean = 0;
+		for (auto& elem : vecTensor)
+		{
+			curMean += elem;
+		}
+		savedMeans.push_back(curMean / vecTensor.size());
+		mean += (curMean / vecTensor.size());
+	}
+	float batchMean = (mean / batch.size());
+	float varianceAcc = 0;
+
+	for (auto& curMean : savedMeans)
+	{
+		float curDiff = (batchMean - curMean);
+		varianceAcc += (curDiff * curDiff);
+	}
+	float expectedBatchVariance = varianceAcc / savedMeans.size();
+	Tensor<1, float> rChannel(r.begin(), r.end());
+	Tensor<1, float> gChannel(g.begin(), g.end());
+	Tensor<1, float> bChannel(b.begin(), b.end());
+	std::vector<Tensor<1, float>> batchActual { rChannel, gChannel, bChannel };
+
+	float actualVariance = ModuleAlgorithms::computeVarianceBatch<float,
+										   3,
+										   Tensor<1, float>>(batchActual);
+
+	ASSERT_EQ(expectedBatchVariance, actualVariance);
+}
+
+TEST_F(ModuleTest, batch_norm_2d)
 {
 	Tensor<1, float> red = {
 		23, 56, 192, 99, 12, 78, 164, 48,
@@ -94,10 +187,34 @@ TEST_F(ModuleAlgosTest, batch_norm_2d)
 	Tensor<3, float> normalizedRgb(normalizedRed, normalizedGreen, normalizedBlue);
 	Tensor<3, float> normalizedRgb2(normalizedGreen, normalizedBlue, normalizedRed);
 
-	std::vector<Tensor<3, double>> batch;
+	std::vector<Tensor<3, float>> batch;
 	batch.emplace_back(rgb);
 	batch.emplace_back(rgb2);
-	Batch<double, Tensor<3, double>, 3> batchNorm(batch);
-	//batchNorm.forward();
+	Batch<float, Tensor<3, float>, 3> batchNormed(batch);
+
+	std::cout << "\n";
+
+	auto vec = batchNormed.forward();
+
+	std::vector<Tensor<3, double>> expectedBatch;
+
+	expectedBatch.emplace_back(normalizedRgb);
+	expectedBatch.emplace_back(normalizedRgb2);
+	Batch<double, Tensor<3, double>, 3> expected(expectedBatch);
+
+	// assert both are equal in size ... or refactor later to use zip
+	for (int i = 0; i < batch.size(); i++)
+	{
+		Tensor<3, double> curTensor = vec[i];
+		Tensor<3, double> expectedTensor = expectedBatch[i];
+
+		for (int j = 0; j < curTensor.size(); j++)
+		{
+			double cur = curTensor[j];
+			double expected = expectedTensor[j];
+
+			ASSERT_EQ(cur, expected);
+		}
+	}
 
 }
