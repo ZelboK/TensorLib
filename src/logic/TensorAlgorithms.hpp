@@ -1,10 +1,11 @@
 #ifndef TENSORLIB_TENSORALGORITHMS_H
 #define TENSORLIB_TENSORALGORITHMS_H
 
-#include "../domain/Tensor.h"
-#include "../domain/DefaultTypes.h"
+#include "Tensor.h"
+#include "DefaultTypes.h"
 #include <functional>
 #include "FunctionalProgrammingAlgos.hpp"
+
 namespace TensorAlgos
 {
 	template<int N>

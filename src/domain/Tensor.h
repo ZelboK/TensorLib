@@ -51,6 +51,8 @@ class TensorIterator;
  * I also, wanted to get more comfortable with templates and compile time
  * logic. It is important to keep that context/history when looking at this.
  */
+// TODO take out m_rank from the template. It is causing problems with type deduction and
+// I'm not sure if any benefit.  Compile time assertions can be done with a constexpr
 template<int m_rank, Number T>
 requires (m_rank > 0)
 class Tensor

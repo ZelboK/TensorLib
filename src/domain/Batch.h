@@ -6,7 +6,7 @@
 #define TENSORLIB_BATCH_H
 
 #include "Module.h"
-#include "../logic/ModuleAlgorithms.hpp"
+#include "ModuleAlgorithms.hpp"
 
 template<Number T, class Tensor, int rank>
 class Batch : Module<T>
