@@ -2,9 +2,9 @@
 // Created by Danial javady on 2023-04-03.
 //
 #include <gtest/gtest.h>
-#include "../domain/Tensor.h"
-#include "../logic/ModuleAlgorithms.hpp"
-#include "../domain/Batch.h"
+#include "Tensor.h"
+#include "ModuleAlgorithms.hpp"
+#include "Batch.h"
 
 class ModuleTest : public ::testing::Test
 {
@@ -48,9 +48,7 @@ class ModuleAlgosTest : public ModuleTest
 {
  protected:
 	ModuleAlgosTest()
-	{
-
-	}
+	= default;
 };
 
 TEST_F(ModuleTest, reduceMapBatch)
@@ -107,7 +105,7 @@ TEST_F(ModuleTest, batchVariance)
 	Tensor<1, float> bChannel(b.begin(), b.end());
 	std::vector<Tensor<1, float>> batchActual { rChannel, gChannel, bChannel };
 
-	float actualVariance = ModuleAlgorithms::computeVarianceBatch<float,
+	auto actualVariance = ModuleAlgorithms::computeVarianceBatch<float,
 										   3,
 										   Tensor<1, float>>(batchActual);
 

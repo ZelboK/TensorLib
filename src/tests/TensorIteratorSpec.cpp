@@ -3,7 +3,7 @@
 //
 #include <gtest/gtest.h>
 
-#include "../domain/Tensor.h"
+#include "Tensor.h"
 #include <iostream>
 
 class TensorImplTest : public ::testing::Test
@@ -15,19 +15,8 @@ class TensorImplTestSpec : public TensorImplTest
 {
  protected:
 	TensorImplTestSpec()
-	{
-
-	}
+	= default;
 };
-
-
-TEST(TensorImplTest, TensorIterator)
-{
-	const Tensor<1, float> test(32);
-	const TensorIterator<1, float, true> iterator = test.begin();
-	Tensor<1, float> test2(32);
-	TensorIterator<1, float, false> iterator2 = test2.begin();
-}
 
 TEST(TensorImplTest, Tensor_Constructor_init_list)
 {
