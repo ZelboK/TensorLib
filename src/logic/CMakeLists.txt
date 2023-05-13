@@ -9,7 +9,7 @@ add_library(TensorAlgorithms
 # Specify the include directories for the TensorAlgorithms library
 target_include_directories(TensorAlgorithms
         PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        .
         PUBLIC
         ${CMAKE_SOURCE_DIR}/include)
 

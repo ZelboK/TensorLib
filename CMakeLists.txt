@@ -13,12 +13,12 @@ add_executable(TensorLib
         src/domain/DefaultTypes.h
         src/domain/Convolution.h)
 
-file(DOWNLOAD "https://raw.githubusercontent.com/nothings/stb/master/stb_image.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image.h" SHOW_PROGRESS)
+file(DOWNLOAD "https://raw.githubusercontent.com/nothings/stb/master/stb_image.h" "include/stb_image.h" SHOW_PROGRESS)
 
 add_subdirectory(src/tests)
 add_subdirectory(src/logic)
 
 target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
-target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include ${PROJECT_SOURCE_DIR}/src/logic)
+target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
 
 target_link_libraries(TensorLib PRIVATE TensorAlgorithms)

@@ -12,7 +12,7 @@ RUN apt-get update && \
     gdb
 
 # Copy your source code into the container
-COPY . .
+COPY TensorLib .
 
 # Create a build directory and run CMake
 RUN mkdir build && \
