@@ -2,8 +2,8 @@
 // Created by 12893 on 2023-03-30.
 //
 
-#include "../domain/Tensor.h"
-#include "../domain/DefaultTypes.h"
+#include "Tensor.h"
+#include "DefaultTypes.h"
 #ifndef TENSORLIB_TENSORLIB_SRC_LOGIC_PARALLELALGORITHMS_HPP_
 #define TENSORLIB_TENSORLIB_SRC_LOGIC_PARALLELALGORITHMS_HPP_
 

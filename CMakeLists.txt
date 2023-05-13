@@ -3,7 +3,6 @@ project(TensorLib)
 
 set(CMAKE_CXX_STANDARD 20)
 
-
 add_executable(TensorLib
         src/main.cpp
         src/domain/Tensor.h
@@ -13,12 +12,12 @@ add_executable(TensorLib
         src/domain/DefaultTypes.h
         src/domain/Convolution.h)
 
+
 file(DOWNLOAD "https://raw.githubusercontent.com/nothings/stb/master/stb_image.h" "include/stb_image.h" SHOW_PROGRESS)
 
 add_subdirectory(src/tests)
 add_subdirectory(src/logic)
 
-target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
 target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
 
 target_link_libraries(TensorLib PRIVATE TensorAlgorithms)
