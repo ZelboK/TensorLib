@@ -6,7 +6,7 @@
 #define TENSORLIB_MODULE_H
 
 #include "DefaultTypes.h"
-#include "Tensor.h"
+#include "old_tensor_impl/Tensor.h"
 
 template<Number T>
 class Module

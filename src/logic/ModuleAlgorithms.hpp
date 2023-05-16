@@ -6,7 +6,7 @@
 #define TENSORLIB_TENSORLIB_SRC_LOGIC_MODULEALGORITHMS_HPP_
 #include <execution>
 #include "TensorAlgorithms.hpp"
-#include "Tensor.h"
+#include "old_tensor_impl/Tensor.h"
 #include "DefaultTypes.h"
 namespace ModuleAlgorithms
 {
