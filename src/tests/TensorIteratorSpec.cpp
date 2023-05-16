@@ -3,7 +3,7 @@
 //
 #include <gtest/gtest.h>
 
-#include "Tensor.h"
+#include "old_tensor_impl/Tensor.h"
 #include <iostream>
 
 class TensorImplTest : public ::testing::Test

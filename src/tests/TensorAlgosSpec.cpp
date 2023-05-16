@@ -3,7 +3,7 @@
 //
 #include <gtest/gtest.h>
 #include <numeric>
-#include "Tensor.h"
+#include "old_tensor_impl/Tensor.h"
 #include "TensorAlgorithms.hpp"
 
 class TensorTest : public ::testing::Test

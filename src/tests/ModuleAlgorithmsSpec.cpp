@@ -2,7 +2,7 @@
 // Created by Danial javady on 2023-04-03.
 //
 #include <gtest/gtest.h>
-#include "Tensor.h"
+#include "old_tensor_impl/Tensor.h"
 #include "ModuleAlgorithms.hpp"
 #include "Batch.h"
 

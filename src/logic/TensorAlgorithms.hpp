@@ -1,7 +1,7 @@
 #ifndef TENSORLIB_TENSORALGORITHMS_H
 #define TENSORLIB_TENSORALGORITHMS_H
 
-#include "Tensor.h"
+#include "old_tensor_impl/Tensor.h"
 #include "DefaultTypes.h"
 #include <functional>
 #include "FunctionalProgrammingAlgos.hpp"

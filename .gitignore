@@ -50,3 +50,7 @@ Desktop.ini
 
 .idea/
 *.iml
+
+# vcpkg
+vcpkg/
+vcpkg_installed/

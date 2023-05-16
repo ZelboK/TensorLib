@@ -1,0 +1,9 @@
+{
+  "name": "tensor-lib",
+  "version-string": "LIVE_AT_HEAD",
+  "homepage": "https://github.com/ZelboK/TensorLib",
+  "description": "Machine Learning Algorithms",
+  "dependencies": [
+    "catch2"
+  ]
+}
