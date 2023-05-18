@@ -14,8 +14,8 @@ add_executable(TensorLib
 find_package(Catch2 CONFIG REQUIRED)
 file(DOWNLOAD "https://raw.githubusercontent.com/nothings/stb/master/stb_image.h" "include/stb_image.h" SHOW_PROGRESS)
 
-add_subdirectory(src/tests)
-add_subdirectory(src/logic)
+add_subdirectory(src)
+add_subdirectory(test)
 
 target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
 

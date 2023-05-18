@@ -6,6 +6,7 @@
 #define TENSORLIB_FUNCTIONALPROGRAMMINGALGOS_HPP
 
 #include "DefaultTypes.h"
+#include "../domain/DefaultTypes.h"
 #include <random>
 
 namespace FunctionalProgAlgos {
