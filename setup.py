@@ -1,5 +1,13 @@
 import subprocess
 import os
+import platform
+
+def get_os():
+    return platform.system()
+
+def run_bootstrap(bootstrap_cmd):
+    subprocess.run(bootstrap_cmd, check=True)
+
 
 def main():
     # Step 1: Clone vcpkg repository
@@ -10,9 +18,11 @@ def main():
     os.chdir("vcpkg")
 
     # Step 2: Bootstrap vcpkg
-    bootstrap_cmd = ["./bootstrap-vcpkg.sh"]
-    subprocess.run(bootstrap_cmd, check=True)
-
+    match get_os():
+        case "Windows":
+            run_bootstrap(["./bootstrap-vcpkg.bat"])
+        case _:
+            run_bootstrap(["./bootstrap-vcpkg.sh"])
     # Step 3: Install vcpkg
     install_cmd = ["./vcpkg", "install"]
     subprocess.run(install_cmd, check=True)
