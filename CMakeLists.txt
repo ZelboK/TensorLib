@@ -19,6 +19,6 @@ add_subdirectory(test)
 
 target_include_directories(TensorLib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include src/logic)
 
-target_link_libraries(TensorLib PRIVATE TensorAlgorithms OldTensorLib)
+target_link_libraries(TensorLib PRIVATE TensorAlgorithms)
 
 
